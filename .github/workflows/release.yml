@@ -28,14 +28,15 @@ jobs:
 
       - name: Read version
         id: ver
-        shell: pwsh
+        shell: bash
         run: |
-          $v = python -c "import re;print(re.search(r'__version__ = \"(.+?)\"', open('rd/version.py').read()).group(1))"
-          "VERSION=$v" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
-          gh release view "v$v" 2>$null
-          if ($LASTEXITCODE -eq 0) { "exists=true" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8; Write-Host "v$v already released - nothing to do" }
-          else { "exists=false" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8 }
-          exit 0
+          v=$(python tools/release_notes.py --version)
+          echo "VERSION=$v" >> "$GITHUB_ENV"
+          if gh release view "v$v" >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"; echo "v$v already released - nothing to do"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"; echo "Building v$v"
+          fi
         env:
           GH_TOKEN: ${{ github.token }}
 
