@@ -72,7 +72,7 @@ The editor uses tracks 2 and 3, so in an exported clip you can turn your mic up,
 ## For the developer: publishing a new version
 
 1. Make changes, and add a `## x.y.z` section to `CHANGELOG.md`. That text becomes the "What's new" notes in the app.
-2. Commit, then push a tag: `git tag v1.0.1 && git push origin main v1.0.1`.
+2. Set `__version__ = "x.y.z"` in `rd/version.py`, then commit and push to `main`.
 3. GitHub Actions builds `ReplayDesk-Setup.exe` and publishes the release (about 5–8 minutes). Installed apps pick it up within a few hours, or right away with **Check for updates**.
 
 To run from source for development: `pip install -r requirements.txt`, then `python app.py`. FFmpeg must be on your PATH or in `ffmpeg\`.

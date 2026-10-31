@@ -1,13 +1,20 @@
 name: Release
 
-# Push a tag like v1.2.0 -> builds ReplayDesk-Setup.exe and publishes a GitHub Release.
+# Bump __version__ in rd/version.py (and add notes to CHANGELOG.md), push to main
+# -> builds ReplayDesk-Setup.exe and publishes GitHub Release v<version>.
 # Installed apps check the latest release and offer the update.
 on:
   push:
-    tags: ["v*"]
+    branches: [main]
+    paths: ["rd/version.py", ".github/workflows/release.yml"]
+  workflow_dispatch:
 
 permissions:
   contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -19,24 +26,36 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Stamp version from tag
+      - name: Read version
+        id: ver
         shell: pwsh
         run: |
-          $v = "${{ github.ref_name }}".TrimStart("v")
-          (Get-Content rd/version.py) -replace '__version__ = ".*"', "__version__ = `"$v`"" | Set-Content rd/version.py
+          $v = python -c "import re;print(re.search(r'__version__ = \"(.+?)\"', open('rd/version.py').read()).group(1))"
           "VERSION=$v" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+          gh release view "v$v" 2>$null
+          if ($LASTEXITCODE -eq 0) { "exists=true" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8; Write-Host "v$v already released - nothing to do" }
+          else { "exists=false" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8 }
+          exit 0
+        env:
+          GH_TOKEN: ${{ github.token }}
 
       - name: Build installer
+        if: steps.ver.outputs.exists == 'false'
         shell: pwsh
         run: ./tools/build.ps1 -Version $env:VERSION
 
       - name: Release notes
+        if: steps.ver.outputs.exists == 'false'
         shell: pwsh
         run: python tools/release_notes.py $env:VERSION | Out-File -FilePath notes.md -Encoding utf8
 
       - name: Publish release
+        if: steps.ver.outputs.exists == 'false'
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: v${{ env.VERSION }}
+          target_commitish: ${{ github.sha }}
           name: Replay Desk ${{ env.VERSION }}
           body_path: notes.md
           files: dist/ReplayDesk-Setup.exe
+          make_latest: true
