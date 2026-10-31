@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Replay Desk</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='4' y='12' width='56' height='40' rx='10' fill='%2314161c' stroke='%23ff4655' stroke-width='4'/><circle cx='32' cy='32' r='10' fill='%23ff4655'/></svg>">
+<link rel="stylesheet" href="/web/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="logo"></span>Replay Desk</div>
+  <nav class="tabs">
+    <button data-view="capture" class="active">Capture</button>
+    <button data-view="library">Library</button>
+    <button data-view="editor" id="tabEditor" disabled>Editor</button>
+    <button data-view="compile" id="tabCompile">Compile</button>
+  </nav>
+  <div class="live" id="livePill"><span class="dot"></span><span id="liveText">Starting…</span></div>
+</header>
+<div class="update-banner hidden" id="updBanner">
+  <span class="upd-icon">⬆</span>
+  <div class="upd-text"><b id="updTitle">Update available</b> <button class="link" id="updNotesBtn">What's new</button>
+    <div class="upd-notes hidden" id="updNotes"></div></div>
+  <div class="upd-prog hidden" id="updProg"><div id="updFill"></div></div>
+  <span class="hint" id="updStatus"></span>
+  <button class="btn ghost small" id="updLater">Later</button>
+  <button class="btn accent small" id="updNow">Update now</button>
+</div>
+
+<main>
+<!-- ============================== CAPTURE ============================== -->
+<section id="view-capture" class="view active">
+  <div class="capture-grid">
+    <div class="card status-card">
+      <div class="status-head">
+        <div>
+          <div class="eyebrow">Replay buffer</div>
+          <div class="big-status" id="bufState">—</div>
+        </div>
+        <button class="btn ghost" id="btnBuffer">Stop buffer</button>
+      </div>
+      <div class="meter-row">
+        <div class="buffer-bar"><div id="bufFill"></div></div>
+        <div class="mono" id="bufText">0:00 / 5:00</div>
+      </div>
+      <div class="stats">
+        <div><span class="lbl">Capture</span><span class="val mono" id="statFps">— fps</span></div>
+        <div><span class="lbl">Dropped</span><span class="val mono" id="statDrop">0</span></div>
+        <div><span class="lbl">Encoder</span><span class="val" id="statEnc">—</span></div>
+      </div>
+      <div class="audio-meters" id="audioMeters"></div>
+      <div class="error-box hidden" id="errBox"></div>
+    </div>
+
+    <div class="card action-card">
+      <button class="action replay" id="btnReplay">
+        <span class="a-icon">⟲</span>
+        <span class="a-title">Save replay</span>
+        <span class="a-sub">last <b id="replayLen">5:00</b></span>
+        <kbd id="kbReplay">Ctrl+Alt+F10</kbd>
+      </button>
+      <button class="action record" id="btnRecord">
+        <span class="a-icon rec-dot"></span>
+        <span class="a-title" id="recTitle">Start recording</span>
+        <span class="a-sub mono" id="recTime">00:00:00</span>
+        <kbd id="kbRecord">Ctrl+Alt+F9</kbd>
+      </button>
+    </div>
+
+    <div class="card recent-card">
+      <div class="card-title">Recent saves <button class="link" data-goto="library">Open library →</button></div>
+      <div id="recentList" class="recent-list"><div class="empty">Saved replays and recordings show up here.</div></div>
+    </div>
+
+    <div class="card settings-card">
+      <div class="card-title">Settings <span class="hint" id="settingsSaved"></span></div>
+      <form id="settingsForm" class="settings">
+        <fieldset>
+          <legend>Video</legend>
+          <label>Display<select name="monitor" id="selMonitor"></select></label>
+          <label>Frame rate<select name="fps"><option value="30">30 fps</option><option value="60">60 fps</option><option value="120">120 fps</option></select></label>
+          <label>Quality<select name="quality"><option value="high">High</option><option value="medium">Medium</option><option value="low">Small files</option></select></label>
+          <label>Encoder<select name="encoder"><option value="nvenc">NVIDIA NVENC (GPU)</option><option value="amf">AMD AMF (GPU)</option><option value="x264">x264 (CPU)</option></select></label>
+          <label>Replay length<select name="buffer_seconds"><option value="30">30 seconds</option><option value="60">1 minute</option><option value="120">2 minutes</option><option value="300">5 minutes</option><option value="600">10 minutes</option><option value="900">15 minutes</option><option value="1200">20 minutes</option></select></label>
+        </fieldset>
+        <fieldset>
+          <legend>Audio</legend>
+          <label class="check"><input type="checkbox" name="game_audio"> Record game / PC audio</label>
+          <label>Output device<select name="game_device" id="selGame"><option value="">Windows default</option></select></label>
+          <label class="check"><input type="checkbox" name="mic_enabled"> Record microphone</label>
+          <label>Microphone<select name="mic_device" id="selMic"><option value="">Windows default</option></select></label>
+          <label>Mic level <span class="mono" id="micVolVal">100%</span><input type="range" name="mic_volume" min="0" max="2" step="0.05"></label>
+          <label>Audio sync offset <span class="mono" id="offVal">0 ms</span><input type="range" name="audio_offset_ms" min="-300" max="300" step="10"></label>
+        </fieldset>
+        <fieldset>
+          <legend>Hotkeys &amp; files</legend>
+          <label>Save replay<input class="hotkey" name="hotkey_replay" readonly></label>
+          <div class="hk-status" data-for="hotkey_replay"></div>
+          <label>Start / stop recording<input class="hotkey" name="hotkey_record" readonly></label>
+          <div class="hk-status" data-for="hotkey_record"></div>
+          <label>Save to folder<input name="output_dir" spellcheck="false"></label>
+          <label class="check"><input type="checkbox" name="name_by_game"> Name files after the game</label>
+          <label class="check"><input type="checkbox" name="sound_feedback"> Beep when saving</label>
+          <label class="check"><input type="checkbox" name="start_buffer_on_launch"> Start buffer when app opens</label>
+          <label class="check"><input type="checkbox" name="auto_update"> Install updates automatically</label>
+          <div class="version-row"><span class="hint" id="verText">Version —</span><button type="button" class="link" id="btnCheckUpd">Check for updates</button></div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== LIBRARY ============================== -->
+<section id="view-library" class="view">
+  <div class="lib-bar">
+    <div class="seg-ctl" id="libFilter">
+      <button data-f="all" class="active">All</button>
+      <button data-f="Replays">Replays</button>
+      <button data-f="Recordings">Recordings</button>
+      <button data-f="Clips">Clips</button>
+      <button data-f="Compilations">Compilations</button>
+    </div>
+    <input id="libSearch" class="search" placeholder="Search…" spellcheck="false">
+    <div class="spacer"></div>
+    <span class="hint" id="libCount"></span>
+    <button class="btn ghost" id="btnOpenFolder">Open folder</button>
+    <button class="btn accent" id="btnSelectMode">Compile clips</button>
+  </div>
+  <div class="select-hint hidden" id="selectHint">Click videos in the order you want them to play. Click again to remove.</div>
+  <div id="libGrid" class="lib-grid"></div>
+  <div class="select-bar hidden" id="selectBar">
+    <span id="selCount">0 selected</span>
+    <span class="hint mono" id="selDur"></span>
+    <div class="spacer"></div>
+    <button class="btn ghost" id="selCancel">Cancel</button>
+    <button class="btn ghost" id="selClear">Clear</button>
+    <button class="btn accent" id="selBuild">Build compilation →</button>
+  </div>
+</section>
+
+<!-- ============================== EDITOR ============================== -->
+<section id="view-editor" class="view">
+  <div class="editor">
+    <div class="ed-main">
+      <div class="ed-title">
+        <button class="btn ghost small" data-goto="library">← Library</button>
+        <h2 id="edName">—</h2>
+        <span class="hint" id="edMeta"></span>
+      </div>
+      <div class="player-wrap">
+        <video id="video" preload="auto" playsinline></video>
+        <div class="clip-badge hidden" id="clipBadge">Previewing clip</div>
+      </div>
+      <div class="transport">
+        <button class="btn icon" id="bPrevSeg" title="Previous segment edge">⏮</button>
+        <button class="btn icon" id="bBack" title="Back 5s (J)">-5s</button>
+        <button class="btn icon play" id="bPlay" title="Play / pause (Space)">▶</button>
+        <button class="btn icon" id="bFwd" title="Forward 5s (L)">+5s</button>
+        <button class="btn icon" id="bNextSeg" title="Next segment edge">⏭</button>
+        <div class="tc mono"><span id="tcNow">0:00.00</span> / <span id="tcDur">0:00.00</span></div>
+        <div class="spacer"></div>
+        <select id="rate" class="small-select" title="Playback speed">
+          <option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option>
+        </select>
+        <button class="btn" id="bPreview" title="Play only the kept segments (P)">▶ Preview clip</button>
+      </div>
+      <div class="timeline-wrap">
+        <div class="tl-tools">
+          <button class="btn small" id="bIn" title="Set in point (I)">[ In</button>
+          <button class="btn small" id="bOut" title="Set out point (O)">Out ]</button>
+          <button class="btn small accent" id="bAdd" title="Add selection as segment (A)">+ Add segment</button>
+          <button class="btn small ghost" id="bSplit" title="Split segment at playhead (S)">✂ Split</button>
+          <span class="hint" id="selInfo"></span>
+          <div class="spacer"></div>
+          <span class="hint">Zoom</span>
+          <input type="range" id="zoom" min="1" max="60" value="1" step="1">
+        </div>
+        <div class="timeline" id="timelineScroll">
+          <div class="tl-inner" id="tlInner">
+            <div class="ruler" id="ruler"></div>
+            <div class="strip" id="strip"></div>
+            <div class="selection" id="selection"><div class="h l"></div><div class="h r"></div></div>
+            <div id="segLayer"></div>
+            <div class="playhead" id="playhead"></div>
+          </div>
+        </div>
+      </div>
+      <div class="keys hint">Space play · I / O set in/out · A add · S split · Del remove segment · ← → 1s · , . 1 frame · P preview clip · drag segment edges to adjust</div>
+    </div>
+
+    <aside class="ed-side">
+      <div class="card">
+        <div class="card-title">Segments <span class="hint" id="segTotal"></span></div>
+        <div id="segList" class="seg-list"></div>
+        <div class="empty small" id="segEmpty">No segments yet. Set In/Out and press <b>Add segment</b>. If you add none, the In/Out selection is exported.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Audio</div>
+        <div id="audioCtl"></div>
+        <div class="hint small">Preview plays the combined track. Levels apply to the exported clip.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Export clip</div>
+        <label class="field">Name<input id="exName" spellcheck="false"></label>
+        <div class="row2">
+          <label class="field">Quality<select id="exQuality"><option value="high">High</option><option value="medium">Medium</option><option value="low">Small</option></select></label>
+          <label class="field">Resolution<select id="exRes"><option value="">Original</option><option value="1440">1440p</option><option value="1080">1080p</option><option value="720">720p</option></select></label>
+        </div>
+        <button class="btn accent wide" id="bExport">Export clip</button>
+        <div class="export-progress hidden" id="exProg">
+          <div class="bar"><div id="exFill"></div></div>
+          <div class="ex-row"><span id="exText">Exporting…</span><button class="link" id="exCancel">Cancel</button></div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>
+<!-- ============================== COMPILE ============================== -->
+<section id="view-compile" class="view">
+  <div class="compile">
+    <div class="cp-main">
+      <div class="player-wrap cp-player">
+        <video id="cpVideo" preload="auto" playsinline></video>
+        <div class="clip-badge hidden" id="cpBadge"></div>
+        <div class="cp-empty" id="cpEmpty">
+          <div>No clips in this compilation yet.</div>
+          <button class="btn accent" id="cpPick">Pick clips from the Library</button>
+        </div>
+      </div>
+      <div class="transport">
+        <button class="btn icon play" id="cpPlay" title="Play the whole compilation">▶</button>
+        <div class="tc mono"><span id="cpNow">0:00</span> / <span id="cpTotal">0:00</span></div>
+        <div class="spacer"></div>
+        <span class="hint">Preview plays clips back to back (transitions show in the export)</span>
+      </div>
+      <div class="cp-strip" id="cpTrack"></div>
+      <div class="card">
+        <div class="card-title">Order <span class="hint">Drag to reorder</span></div>
+        <div id="cpList" class="cp-list"></div>
+        <button class="btn ghost small" id="cpAdd">+ Add more clips</button>
+      </div>
+    </div>
+    <aside class="ed-side">
+      <div class="card">
+        <div class="card-title">Transition</div>
+        <div class="seg-ctl full" id="cpTrans">
+          <button data-t="cut" class="active">Cut</button>
+          <button data-t="fade">Fade to black</button>
+          <button data-t="xfade">Crossfade</button>
+        </div>
+        <label class="field" id="cpTdurRow" style="margin-top:12px">Length <span class="mono" id="cpTdurVal">0.5 s</span>
+          <input type="range" id="cpTdur" min="0.2" max="2" step="0.1" value="0.5"></label>
+      </div>
+      <div class="card">
+        <div class="card-title">Export compilation</div>
+        <label class="field">Name<input id="cpName" spellcheck="false"></label>
+        <div class="row2">
+          <label class="field">Quality<select id="cpQuality"><option value="high">High</option><option value="medium">Medium</option><option value="low">Small</option></select></label>
+          <label class="field">Resolution<select id="cpRes"><option value="">Largest clip</option><option value="1440">1440p</option><option value="1080">1080p</option><option value="720">720p</option></select></label>
+        </div>
+        <div class="hint small" id="cpSummary"></div>
+        <button class="btn accent wide" id="cpExport">Export compilation</button>
+        <div class="export-progress hidden" id="cpProg">
+          <div class="bar"><div id="cpFill"></div></div>
+          <div class="ex-row"><span id="cpText">Exporting…</span><button class="link" id="cpCancel">Cancel</button></div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>
+</main>
+
+<div id="toasts"></div>
+<script src="/web/app.js"></script>
+</body>
+</html>

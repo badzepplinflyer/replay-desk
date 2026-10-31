@@ -1,0 +1,42 @@
+name: Release
+
+# Push a tag like v1.2.0 -> builds ReplayDesk-Setup.exe and publishes a GitHub Release.
+# Installed apps check the latest release and offer the update.
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Stamp version from tag
+        shell: pwsh
+        run: |
+          $v = "${{ github.ref_name }}".TrimStart("v")
+          (Get-Content rd/version.py) -replace '__version__ = ".*"', "__version__ = `"$v`"" | Set-Content rd/version.py
+          "VERSION=$v" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+
+      - name: Build installer
+        shell: pwsh
+        run: ./tools/build.ps1 -Version $env:VERSION
+
+      - name: Release notes
+        shell: pwsh
+        run: python tools/release_notes.py $env:VERSION | Out-File -FilePath notes.md -Encoding utf8
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Replay Desk ${{ env.VERSION }}
+          body_path: notes.md
+          files: dist/ReplayDesk-Setup.exe
