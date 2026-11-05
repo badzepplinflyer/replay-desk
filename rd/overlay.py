@@ -56,6 +56,10 @@ class Overlay(threading.Thread):
     def hide(self):
         self.cmds.put("hide")
 
+    def reset_position(self):
+        """Move the panel back to the top-right corner of the main screen and show it."""
+        self.cmds.put("reset")
+
     # ------------------------------------------------------------------ API calls
     def _post(self, path):
         def go():
@@ -175,13 +179,27 @@ class Overlay(threading.Thread):
             pass   # not Windows
 
     # placement / dragging
-    def _place(self):
+    def _virtual_screen(self):
+        """(left, top, right, bottom) of all monitors together, so a panel dragged to a
+        second monitor is restored there. Falls back to the main screen."""
+        try:
+            import ctypes
+            u = ctypes.windll.user32
+            l, t = u.GetSystemMetrics(76), u.GetSystemMetrics(77)
+            return l, t, l + u.GetSystemMetrics(78), t + u.GetSystemMetrics(79)
+        except Exception:
+            return 0, 0, self.root.winfo_screenwidth(), self.root.winfo_screenheight()
+
+    def _place(self, reset=False):
         s = self.load_settings()
-        w, h = self.root.winfo_reqwidth(), self.root.winfo_reqheight()
-        sw, sh = self.root.winfo_screenwidth(), self.root.winfo_screenheight()
+        w = self.root.winfo_reqwidth()
+        sw = self.root.winfo_screenwidth()          # main screen (always starts at 0,0)
         x, y = s.get("overlay_x", -1), s.get("overlay_y", -1)
-        if x is None or x < 0 or x > sw - 40 or y < 0 or y > sh - 40:
-            x, y = sw - w - 24, 24                     # default: top-right corner
+        l, t, r, b = self._virtual_screen()
+        on_screen = x is not None and y is not None and l <= x <= r - 40 and t <= y <= b - 40 \
+            and not (x == -1 and y == -1)
+        if reset or not on_screen:
+            x, y = sw - w - 24, 24                     # top-right corner of the main screen
         self.root.geometry(f"+{int(x)}+{int(y)}")
 
     def _drag_start(self, e):
@@ -218,6 +236,11 @@ class Overlay(threading.Thread):
                     self._show()
                 elif c == "hide":
                     self._hide()
+                elif c == "reset":
+                    self._place(reset=True)
+                    self._show()
+                    self.root.update()
+                    self._drag_end(None)
         except queue.Empty:
             pass
         if self.visible:   # some games re-assert topmost; keep the panel above them

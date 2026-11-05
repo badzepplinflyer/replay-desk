@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.1
+- Overlay: new "Move to main screen" button in Settings brings the panel back to the top-right of your main monitor if it ends up off-screen or on the wrong display.
+- Overlay now positions correctly on high-DPI and multi-monitor setups.
+- Replay Desk now checks for updates every hour (was every 6 hours).
+
 ## 1.1.0
 - New floating overlay: press Ctrl+Alt+O in-game to pop up controls for Save replay, Record/Stop and Start/Stop buffer. It stays on top of your game, doesn't steal focus when you click it, and you can drag it anywhere (it remembers the spot).
 - Also available from the Overlay button at the top of the app and the tray menu; change the hotkey or show it at startup in Settings.

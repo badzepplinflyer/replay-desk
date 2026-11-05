@@ -23,7 +23,7 @@ log = logging.getLogger("rd.updater")
 
 UPDATES_DIR = config.DATA_DIR / "updates"
 PENDING_FILE = UPDATES_DIR / "pending.json"
-CHECK_EVERY = 6 * 3600
+CHECK_EVERY = 3600
 FROZEN = getattr(sys, "frozen", False)   # True when running the installed .exe
 
 

@@ -165,7 +165,23 @@ def make_tray(recorder, quit_cb, overlay=None):
     return pystray.Icon("ReplayDesk", img, "Replay Desk", menu)
 
 
+def set_dpi_aware():
+    """Use real pixel coordinates on high-DPI/multi-monitor setups so the overlay
+    lands exactly where expected (call before any window is created)."""
+    if not config.IS_WINDOWS:
+        return
+    import ctypes
+    try:
+        ctypes.windll.shcore.SetProcessDpiAwareness(2)      # per-monitor aware
+    except Exception:
+        try:
+            ctypes.windll.user32.SetProcessDPIAware()
+        except Exception:
+            pass
+
+
 def main():
+    set_dpi_aware()
     from rd import updater
     if updater.install_pending_on_launch():      # auto-update: install before starting
         return

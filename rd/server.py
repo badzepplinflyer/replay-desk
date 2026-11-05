@@ -159,6 +159,13 @@ def create_app(recorder, hotkeys_apply, events, version="dev", quit_cb=None, upd
         overlay.toggle()
         return jsonify(ok=True)
 
+    @app.post("/api/overlay/reset")
+    def overlay_reset():
+        if not overlay or not overlay.available:
+            return jsonify(ok=False, error="Overlay isn't available on this system"), 400
+        overlay.reset_position()
+        return jsonify(ok=True)
+
     @app.post("/api/replay/save")
     def save_replay():
         threading.Thread(target=recorder.save_replay, daemon=True).start()

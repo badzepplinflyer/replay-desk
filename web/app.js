@@ -137,6 +137,7 @@ $$(".hotkey").forEach(inp => {
 });
 
 $("#btnReplay").onclick = () => api("/api/replay/save", {});
+$("#btnOverlayReset").onclick = () => api("/api/overlay/reset", {}).catch(e => toast(e.message, "error"));
 $("#btnOverlay").onclick = () => api("/api/overlay/toggle", {}).catch(e => toast(e.message, "error"));
 $("#btnRecord").onclick = () => api("/api/record/toggle", {});
 $("#btnBuffer").onclick = () => api("/api/buffer/" + (statusState.buffer_running ? "stop" : "start"), {});
