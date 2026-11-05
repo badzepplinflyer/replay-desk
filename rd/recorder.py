@@ -391,8 +391,14 @@ class Recorder:
 
     def start_recording(self):
         if not self.running:
-            self.on_event("error", "Capture isn't running")
-            return None
+            # capture is off: start it, then begin recording as soon as frames arrive
+            self.start()
+            end = time.time() + 15
+            while not self.running and time.time() < end and self.want_running:
+                time.sleep(0.2)
+            if not self.running:
+                self.on_event("error", "Capture couldn't start - open Replay Desk for details")
+                return None
         with self.lock:
             # the segment being written right now is the first one of the recording
             self.recording_from = self.seg_counter

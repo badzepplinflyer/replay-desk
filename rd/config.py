@@ -41,6 +41,10 @@ DEFAULTS = {
     "audio_offset_ms": 0,         # + delays audio, - advances it
     "hotkey_replay": "Ctrl+Alt+F10",
     "hotkey_record": "Ctrl+Alt+F9",
+    "hotkey_overlay": "Ctrl+Alt+O",
+    "overlay_on_launch": False,
+    "overlay_x": -1,
+    "overlay_y": -1,
     "sound_feedback": True,
     "start_buffer_on_launch": True,
     "name_by_game": True,

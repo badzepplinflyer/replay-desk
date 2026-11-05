@@ -65,7 +65,7 @@ def list_monitors():
             for i, m in enumerate(mons)] or [{"index": 0, "label": "Display 1"}]
 
 
-def create_app(recorder, hotkeys_apply, events, version="dev", quit_cb=None, updater=None):
+def create_app(recorder, hotkeys_apply, events, version="dev", quit_cb=None, updater=None, overlay=None):
     static = config.APP_DIR / "web"
     app = Flask(__name__, static_folder=None)
     app.logger.setLevel(logging.WARNING)
@@ -152,6 +152,13 @@ def create_app(recorder, hotkeys_apply, events, version="dev", quit_cb=None, upd
             events.add("buffer", "Replay buffer stopped")
         return jsonify(ok=True)
 
+    @app.post("/api/overlay/toggle")
+    def overlay_toggle():
+        if not overlay or not overlay.available:
+            return jsonify(ok=False, error="Overlay isn't available on this system"), 400
+        overlay.toggle()
+        return jsonify(ok=True)
+
     @app.post("/api/replay/save")
     def save_replay():
         threading.Thread(target=recorder.save_replay, daemon=True).start()
@@ -173,7 +180,7 @@ def create_app(recorder, hotkeys_apply, events, version="dev", quit_cb=None, upd
         old = config.load()
         saved = config.save(new)
         config.ensure_dirs(saved)
-        if any(old.get(k) != saved.get(k) for k in ("hotkey_replay", "hotkey_record")):
+        if any(old.get(k) != saved.get(k) for k in ("hotkey_replay", "hotkey_record", "hotkey_overlay")):
             hotkeys_apply()
         capture_changed = any(old.get(k) != saved.get(k) for k in CAPTURE_KEYS)
         recorder.settings = saved

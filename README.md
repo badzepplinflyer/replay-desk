@@ -27,6 +27,10 @@ When Replay Desk opens, the replay buffer starts and the window shows a green **
 
 You'll hear two quick beeps when a replay saves. Files are named after the game, for example `iRacing_2026-10-31_20-15-02.mp4`. You can change either hotkey on the Capture tab: click the box and press the new key combination.
 
+### Overlay
+
+Press **Ctrl+Alt+O** while you play to pop up a small control panel on top of the game, with **Save replay**, **Record / Stop** and **Start / Stop buffer** buttons, plus live status and the recording timer. Clicking it doesn't take focus from your game. Drag it wherever you like and it remembers the spot. Press the hotkey again, or click ✕, to hide it. You can also open it from the **⧉ Overlay** button in the app or from the tray menu. The overlay shows over games in borderless or windowed mode, not exclusive fullscreen.
+
 ### Making a clip
 
 1. Open **Library** and click a replay or recording.

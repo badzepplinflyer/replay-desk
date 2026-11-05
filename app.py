@@ -127,19 +127,22 @@ def play_sound(kind):
 
 
 class HotkeyApplier:
-    def __init__(self, manager, recorder):
-        self.m, self.rec = manager, recorder
+    def __init__(self, manager, recorder, overlay=None):
+        self.m, self.rec, self.overlay = manager, recorder, overlay
 
     def __call__(self):
         s = config.load()
-        self.m.set_bindings({s["hotkey_replay"]: self.rec.save_replay,
-                             s["hotkey_record"]: self.rec.toggle_recording})
+        binds = {s["hotkey_replay"]: self.rec.save_replay,
+                 s["hotkey_record"]: self.rec.toggle_recording}
+        if self.overlay and self.overlay.available and s.get("hotkey_overlay"):
+            binds[s["hotkey_overlay"]] = self.overlay.toggle
+        self.m.set_bindings(binds)
 
     def status_snapshot(self):
         return dict(self.m.status)
 
 
-def make_tray(recorder, quit_cb):
+def make_tray(recorder, quit_cb, overlay=None):
     try:
         import pystray
         from PIL import Image, ImageDraw
@@ -154,6 +157,8 @@ def make_tray(recorder, quit_cb):
         pystray.MenuItem("Save replay", lambda: threading.Thread(target=recorder.save_replay, daemon=True).start()),
         pystray.MenuItem("Start / stop recording",
                          lambda: threading.Thread(target=recorder.toggle_recording, daemon=True).start()),
+        pystray.MenuItem("Show / hide overlay", lambda: overlay and overlay.toggle(),
+                         visible=bool(overlay and overlay.available)),
         pystray.Menu.SEPARATOR,
         pystray.MenuItem("Quit", lambda icon: quit_cb(icon)),
     )
@@ -202,14 +207,17 @@ def main():
     recorder = Recorder(on_event)
     hk = HotkeyManager()
     hk.start()
-    applier = HotkeyApplier(hk, recorder)
+    from rd.overlay import Overlay
+    overlay = Overlay(URL, config.load, config.save)
+    overlay.start()
+    applier = HotkeyApplier(hk, recorder, overlay)
     applier()
 
     quit_holder = {}
     upd = updater.Updater(on_event)
     upd.set_quit(lambda: quit_holder["fn"]())
     app = create_app(recorder, applier, events, code_version(),
-                     lambda: threading.Thread(target=quit_holder["fn"], daemon=True).start(), upd)
+                     lambda: threading.Thread(target=quit_holder["fn"], daemon=True).start(), upd, overlay)
     from werkzeug.serving import make_server
     srv = make_server("127.0.0.1", PORT, app, threaded=True)
     threading.Thread(target=srv.serve_forever, daemon=True).start()
@@ -218,6 +226,8 @@ def main():
     if settings["start_buffer_on_launch"]:
         recorder.start()
     upd.start_background()
+    if settings.get("overlay_on_launch"):
+        overlay.show()
     if "--no-window" not in sys.argv:
         open_window()
 
@@ -231,7 +241,7 @@ def main():
             icon.stop()
 
     quit_holder["fn"] = lambda: quit_app(tray_holder.get("icon"))
-    icon = make_tray(recorder, quit_app)
+    icon = make_tray(recorder, quit_app, overlay)
     if icon:
         tray_holder["icon"] = icon
         icon.run()              # blocks until Quit

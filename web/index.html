@@ -16,6 +16,7 @@
     <button data-view="editor" id="tabEditor" disabled>Editor</button>
     <button data-view="compile" id="tabCompile">Compile</button>
   </nav>
+  <button class="btn ghost small overlay-btn" id="btnOverlay" title="Floating controls that stay on top of your game">⧉ Overlay</button>
   <div class="live" id="livePill"><span class="dot"></span><span id="liveText">Starting…</span></div>
 </header>
 <div class="update-banner hidden" id="updBanner">
@@ -99,6 +100,9 @@
           <div class="hk-status" data-for="hotkey_replay"></div>
           <label>Start / stop recording<input class="hotkey" name="hotkey_record" readonly></label>
           <div class="hk-status" data-for="hotkey_record"></div>
+          <label>Show / hide overlay<input class="hotkey" name="hotkey_overlay" readonly></label>
+          <div class="hk-status" data-for="hotkey_overlay"></div>
+          <label class="check"><input type="checkbox" name="overlay_on_launch"> Show overlay when app opens</label>
           <label>Save to folder<input name="output_dir" spellcheck="false"></label>
           <label class="check"><input type="checkbox" name="name_by_game"> Name files after the game</label>
           <label class="check"><input type="checkbox" name="sound_feedback"> Beep when saving</label>

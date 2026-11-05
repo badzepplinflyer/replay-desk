@@ -137,6 +137,7 @@ $$(".hotkey").forEach(inp => {
 });
 
 $("#btnReplay").onclick = () => api("/api/replay/save", {});
+$("#btnOverlay").onclick = () => api("/api/overlay/toggle", {}).catch(e => toast(e.message, "error"));
 $("#btnRecord").onclick = () => api("/api/record/toggle", {});
 $("#btnBuffer").onclick = () => api("/api/buffer/" + (statusState.buffer_running ? "stop" : "start"), {});
 
@@ -264,7 +265,7 @@ function renderStatus(s) {
   $("#recTitle").textContent = s.recording ? "Stop recording" : "Start recording";
   $("#recTime").textContent = s.recording ? fmt(s.recording_seconds) : "Full session, any length";
 
-  for (const [field, combo] of [["hotkey_replay", settings.hotkey_replay], ["hotkey_record", settings.hotkey_record]]) {
+  for (const [field, combo] of [["hotkey_replay", settings.hotkey_replay], ["hotkey_record", settings.hotkey_record], ["hotkey_overlay", settings.hotkey_overlay]]) {
     const el = $(`.hk-status[data-for="${field}"]`);
     const v = (s.hotkeys || {})[combo];
     if (!el) continue;

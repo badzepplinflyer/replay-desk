@@ -40,7 +40,8 @@ kbd { font-family: "Cascadia Mono", Consolas, monospace; font-size: 11px; paddin
 .tabs button:hover:not(:disabled) { color: var(--text); background: rgba(255,255,255,.04); }
 .tabs button.active { color: var(--text); background: var(--panel2); }
 .tabs button:disabled { opacity: .35; cursor: default; }
-.live { margin-left: auto; display: flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 99px;
+.overlay-btn { margin-left: auto; }
+.live { display: flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 99px;
   background: var(--panel); border: 1px solid var(--line); font-size: 12px; color: var(--dim); font-weight: 600; }
 .live .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--dim2); }
 .live.on .dot { background: var(--ok); box-shadow: 0 0 0 3px rgba(61,220,151,.15); }
