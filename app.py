@@ -148,10 +148,13 @@ def make_tray(recorder, quit_cb, overlay=None):
         from PIL import Image, ImageDraw
     except Exception:
         return None
-    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
-    d = ImageDraw.Draw(img)
-    d.rounded_rectangle((4, 12, 60, 52), 10, fill=(20, 22, 28, 255), outline=(255, 70, 85, 255), width=4)
-    d.ellipse((22, 22, 42, 42), fill=(255, 70, 85, 255))
+    try:
+        img = Image.open(config.APP_DIR / "web" / "img" / "r_64.png").convert("RGBA")
+    except OSError:
+        img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+        d = ImageDraw.Draw(img)
+        d.rounded_rectangle((4, 12, 60, 52), 10, fill=(20, 22, 28, 255), outline=(240, 20, 28, 255), width=4)
+        d.ellipse((22, 22, 42, 42), fill=(240, 20, 28, 255))
     menu = pystray.Menu(
         pystray.MenuItem("Open Replay Desk", lambda: open_window(), default=True),
         pystray.MenuItem("Save replay", lambda: threading.Thread(target=recorder.save_replay, daemon=True).start()),

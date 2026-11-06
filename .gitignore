@@ -4,5 +4,5 @@ build/
 dist/
 .venv/
 ffmpeg/
-icon.ico
+/icon.ico
 notes.md

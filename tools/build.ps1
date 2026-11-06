@@ -30,7 +30,7 @@ $filters = & "$ffDir\ffmpeg.exe" -hide_banner -filters | Out-String
 if ($filters -notmatch "ddagrab") { throw "FFmpeg build lacks ddagrab screen capture" }
 
 Write-Host "== Icon"
-python tools\make_icon.py build\icon.ico
+Copy-Item "$Root\assets\icon.ico" "$Root\build\icon.ico" -Force
 
 Write-Host "== PyInstaller"
 python -m PyInstaller --noconfirm --clean --windowed --name ReplayDesk `

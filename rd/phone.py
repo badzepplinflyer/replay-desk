@@ -112,6 +112,12 @@ class PhoneShare:
     def _make_app(self):
         app = Flask("replaydesk-phone")
         page_tpl = (config.APP_DIR / "web" / "phone.html").read_text("utf-8")
+        try:
+            import base64
+            logo = base64.b64encode((config.APP_DIR / "web" / "img" / "lockup.webp").read_bytes()).decode()
+            page_tpl = page_tpl.replace("{{LOGO}}", "data:image/webp;base64," + logo)
+        except OSError:
+            page_tpl = page_tpl.replace('<img src="{{LOGO}}" alt="Replay Desk">', "Replay Desk")
 
         @app.get("/v/<token>")
         def page(token):

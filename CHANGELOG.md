@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.2
+- New Replay Desk logo and app icon, now on the desktop shortcut, Start menu, taskbar, tray and installer.
+- Refreshed colours to match the new logo throughout the app, the overlay and the Send to phone page.
+
 ## 1.2.1
 - New side panel overlay: press your overlay hotkey and a control panel slides in from the right edge of the screen, with Save replay, Record, the buffer switch, a live recording timer and your last saved clip. Press it again and it slides away. Works over fullscreen and borderless games and never takes focus from your game.
 - Prefer the small floating panel? Choose it under Settings → Overlay style.

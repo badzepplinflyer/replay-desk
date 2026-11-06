@@ -30,7 +30,7 @@ LINE = "#323846"
 TEXT = "#e8eaef"
 DIM = "#8b93a5"
 FAINT = "#5d6577"
-RED = "#ff4655"
+RED = "#f0141c"
 GREEN = "#3ddc97"
 AMBER = "#ffb547"
 FONT = "Segoe UI"
@@ -142,11 +142,11 @@ class Overlay(threading.Thread):
         head = tk.Frame(body, bg=BG)
         head.pack(fill="x")
         if side:
-            mark = tk.Canvas(head, width=self._px(22), height=self._px(16), bg=BG, highlightthickness=0)
-            mark.create_rectangle(self._px(2), self._px(2), self._px(20), self._px(14), outline=RED, width=self._px(2))
-            mark.create_oval(self._px(8), self._px(5), self._px(14), self._px(11), fill=RED, outline="")
-            mark.pack(side="left")
-            tk.Label(head, text="Replay Desk", bg=BG, fg=TEXT, font=(FONT, 12, "bold")).pack(side="left", padx=(self._px(8), 0))
+            logo = self._logo_image(self._px(26))
+            if logo is not None:
+                tk.Label(head, image=logo, bg=BG).pack(side="left")
+            else:
+                tk.Label(head, text="Replay Desk", bg=BG, fg=TEXT, font=(FONT, 12, "bold")).pack(side="left")
         close = tk.Label(head, text="✕", bg=BG, fg=DIM, font=(FONT, 11 if side else 10), cursor="hand2")
         close.pack(side="right")
         close.bind("<Button-1>", lambda e: self._hide())
@@ -203,6 +203,18 @@ class Overlay(threading.Thread):
         self.root.update_idletasks()
         self._place()
         self._apply_win_styles()
+
+    def _logo_image(self, height):
+        """The Replay Desk logo (horizontal version) sized for the panel header."""
+        try:
+            from . import config
+            from PIL import Image, ImageTk
+            im = Image.open(config.APP_DIR / "web" / "img" / "lockup.png").convert("RGBA")
+            im = im.resize((int(im.width * height / im.height), height), Image.LANCZOS)
+            self._logo_ref = ImageTk.PhotoImage(im, master=self.root)   # keep a reference
+            return self._logo_ref
+        except Exception:
+            return None
 
     def _button(self, parent, text, cmd, side):
         b = tk.Label(parent, text=text, bg=PANEL, fg=TEXT, font=(FONT, 11 if side else 9, "bold"),

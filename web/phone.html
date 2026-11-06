@@ -10,13 +10,12 @@
   * { box-sizing: border-box; }
   body { margin: 0; background: #0d0f13; color: #e8eaef; font-family: -apple-system, system-ui, "Segoe UI", Roboto, sans-serif;
     padding: max(16px, env(safe-area-inset-top)) 16px max(24px, env(safe-area-inset-bottom)); }
-  .brand { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 14px; color: #8b93a5; margin-bottom: 14px; }
-  .logo { width: 18px; height: 13px; border: 2px solid #ff4655; border-radius: 4px; position: relative; }
-  .logo::after { content: ""; position: absolute; inset: 2px 5px; border-radius: 50%; background: #ff4655; }
+  .brand { margin-bottom: 14px; }
+  .brand img { height: 24px; width: auto; display: block; }
   video { width: 100%; border-radius: 12px; background: #000; display: block; }
   h1 { font-size: 18px; margin: 14px 0 4px; word-break: break-word; }
   .meta { color: #8b93a5; font-size: 14px; }
-  .btn { display: block; width: 100%; margin-top: 18px; padding: 16px; border-radius: 12px; border: 0; background: #ff4655;
+  .btn { display: block; width: 100%; margin-top: 18px; padding: 16px; border-radius: 12px; border: 0; background: #f0141c;
     color: #fff; font-size: 17px; font-weight: 700; text-align: center; text-decoration: none; }
   .btn.alt { background: #1d212a; border: 1px solid #323846; color: #e8eaef; margin-top: 10px; }
   .how { margin-top: 18px; background: #171a21; border: 1px solid #262b36; border-radius: 12px; padding: 14px 16px; font-size: 14px; line-height: 1.5; color: #c3c8d4; }
@@ -27,7 +26,7 @@
 </style>
 </head>
 <body>
-  <div class="brand"><span class="logo"></span>Replay Desk</div>
+  <div class="brand"><img src="{{LOGO}}" alt="Replay Desk"></div>
   <video src="/v/{{TOKEN}}/video.mp4" controls playsinline preload="metadata"></video>
   <h1>{{NAME}}</h1>
   <div class="meta">{{SIZE}} · MP4</div>
