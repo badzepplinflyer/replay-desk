@@ -53,6 +53,15 @@ Editor keys: Space plays and pauses · ← → jump 1 s (hold Shift for 5 s) · 
 
 Clips with different sizes or frame rates are matched automatically. Smaller clips get black bars, and clips without sound get silence.
 
+### Sending a video to your phone
+
+Click **📱** on any video in the Library, or **Send to phone** after an export. Scan the QR code with your phone's camera, tap the link, then tap **Download video**. Your phone and PC need to be on the same Wi-Fi.
+- **iPhone:** after downloading, tap the ↓ icon in Safari, open the video, then tap Share → **Save Video** to put it in Photos.
+- **Android:** the video saves to Downloads and appears in Google Photos.
+- **Phone-friendly copy:** large recordings are turned into a 1080p copy first, so they download quickly and play on any phone.
+- **Privacy:** links expire after an hour and only give access to that one video.
+- **Can't connect?** If Windows asks to let Replay Desk use the network, click **Allow**. Also check that your Wi-Fi is set to a **Private network** (Windows Settings → Network & internet).
+
 ## Audio tracks
 
 Every recording has three audio tracks:

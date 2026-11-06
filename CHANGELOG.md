@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.0
+- New: Send to phone. Click the 📱 button on any video in the Library (or after exporting a clip or compilation), scan the QR code with your phone's camera, and download the video over your home Wi-Fi. No cables, accounts or cloud uploads.
+- Big videos (1440p, 120 fps, multiple audio tracks) are turned into a phone-friendly 1080p copy automatically. Untick the option to send the original.
+- Each link only works for the video you picked and expires after an hour. Nothing else on your PC is reachable.
+- The first time, Windows may ask to let Replay Desk use the network: click Allow.
+
 ## 1.1.1
 - Overlay: new "Move to main screen" button in Settings brings the panel back to the top-right of your main monitor if it ends up off-screen or on the wrong display.
 - Overlay now positions correctly on high-DPI and multi-monitor setups.

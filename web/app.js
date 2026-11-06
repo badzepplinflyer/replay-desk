@@ -302,7 +302,7 @@ function renderLibrary() {
         <span class="kind ${it.folder}">${it.folder.slice(0, -1)}</span><span class="dur mono">${fmt(it.duration)}</span></div>
       <div class="vbody"><div class="vname"></div>
         <div class="vmeta"><span>${fmtDate(it.mtime)}</span><span>${fmtSize(it.size)}</span>${it.height ? `<span>${it.height}p</span>` : ""}</div>
-        <div class="vactions"><button class="btn" data-a="edit">Edit</button><button class="btn" data-a="rename">Rename</button><button class="btn" data-a="reveal">Folder</button><button class="btn del" data-a="delete">Delete</button></div>
+        <div class="vactions"><button class="btn" data-a="edit">Edit</button><button class="btn" data-a="rename">Rename</button><button class="btn" data-a="reveal">Folder</button><button class="btn phone" data-a="phone" title="Send to phone">📱</button><button class="btn del" data-a="delete">Delete</button></div>
       </div>`;
     c.querySelector(".vname").textContent = it.name;
     c.querySelector(".vname").title = it.name;
@@ -317,6 +317,7 @@ function renderLibrary() {
       if (!a || a === "edit") return openEditor(it.id);
       e.stopPropagation();
       if (a === "reveal") api("/api/file/reveal", { f: it.id });
+      if (a === "phone") sendToPhone(it.id);
       if (a === "rename") {
         const n = prompt("New name", it.name);
         if (n && n !== it.name) { try { await api("/api/file/rename", { f: it.id, name: n }); loadLibrary(); } catch (err) { toast(err.message, "error"); } }
@@ -675,7 +676,8 @@ async function pollExport() {
   $("#exCancel").classList.add("hidden");
   ed.job = null;
   if (j.state === "done") {
-    $("#exText").innerHTML = `<span class="ok">✓ Saved to Clips</span> · <button class="link" id="exReveal">Show in folder</button> · <button class="link" id="exOpen">Open</button>`;
+    $("#exText").innerHTML = `<span class="ok">✓ Saved to Clips</span> · <button class="link" id="exReveal">Show in folder</button> · <button class="link" id="exOpen">Open</button> · <button class="link" id="exPhone">📱 Send to phone</button>`;
+    $("#exPhone").onclick = () => sendToPhone(j.out);
     $("#exReveal").onclick = () => api("/api/file/reveal", { f: j.out });
     $("#exOpen").onclick = () => openEditor(j.out);
     toast("Clip exported: " + j.out.split("/").pop());
@@ -818,7 +820,8 @@ async function pollCompile() {
   $("#cpExport").disabled = cp.items.length < 2;
   $("#cpCancel").classList.add("hidden");
   if (j.state === "done") {
-    $("#cpText").innerHTML = `<span class="ok">✓ Saved to Compilations</span> · <button class="link" id="cpReveal">Show in folder</button> · <button class="link" id="cpOpen">Open in editor</button>`;
+    $("#cpText").innerHTML = `<span class="ok">✓ Saved to Compilations</span> · <button class="link" id="cpReveal">Show in folder</button> · <button class="link" id="cpOpen">Open in editor</button> · <button class="link" id="cpPhone">📱 Send to phone</button>`;
+    $("#cpPhone").onclick = () => sendToPhone(j.out);
     $("#cpReveal").onclick = () => api("/api/file/reveal", { f: j.out });
     $("#cpOpen").onclick = () => openEditor(j.out);
     toast("Compilation exported: " + j.out.split("/").pop());
@@ -826,6 +829,58 @@ async function pollCompile() {
   else $("#cpText").textContent = "Cancelled";
 }
 $("#cpCancel").onclick = () => cp.job && api(`/api/export/${cp.job}/cancel`, {});
+
+/* =========================================================== SEND TO PHONE */
+const ph = { id: null, file: null, timer: null };
+async function sendToPhone(fileId, optimize) {
+  if (optimize === undefined) optimize = $("#phOptimize").checked;
+  if (ph.id && ph.file !== fileId) api(`/api/phone/share/${ph.id}/stop`, {}).catch(() => {});
+  ph.file = fileId;
+  $("#phoneModal").classList.remove("hidden");
+  $("#phName").textContent = fileId.split("/").pop().replace(/\.mp4$/, "");
+  $("#phReady").classList.add("hidden"); $("#phPreparing").classList.add("hidden"); $("#phError").classList.add("hidden");
+  try {
+    const st = await api("/api/phone/share", { f: fileId, optimize });
+    ph.id = st.id;
+    renderPhone(st);
+    clearInterval(ph.timer);
+    ph.timer = setInterval(async () => {
+      if (!ph.id) return;
+      const s = await api("/api/phone/share/" + ph.id).catch(() => null);
+      if (s) renderPhone(s);
+    }, 700);
+  } catch (e) { showPhoneError(e.message); }
+}
+let phQrFor = null;
+function renderPhone(s) {
+  if (s.state === "preparing") {
+    $("#phPreparing").classList.remove("hidden"); $("#phReady").classList.add("hidden");
+    $("#phFill").style.width = (s.progress * 100).toFixed(0) + "%";
+  } else if (s.state === "ready") {
+    $("#phPreparing").classList.add("hidden");
+    if (s.no_network || !s.url) return showPhoneError("This PC doesn't seem to be connected to a network, so your phone can't reach it.");
+    $("#phReady").classList.remove("hidden");
+    if (phQrFor !== s.id) { $("#phQr").src = `/api/phone/qr/${s.id}.png`; phQrFor = s.id; }
+    $("#phUrl").textContent = s.url;
+    const mins = Math.ceil(s.expires_in / 60);
+    $("#phInfo").textContent = `${s.size ? fmtSize(s.size) + " · " : ""}link works for ${mins} more min` + (s.downloads ? ` · downloaded ${s.downloads}×` : "");
+  } else if (s.state === "error") showPhoneError(s.error || "Something went wrong");
+  else if (s.state === "expired") showPhoneError("This link expired. Close and click 📱 again for a new one.");
+}
+function showPhoneError(msg) {
+  $("#phError").textContent = msg; $("#phError").classList.remove("hidden");
+  $("#phPreparing").classList.add("hidden"); $("#phReady").classList.add("hidden");
+}
+function closePhone(stop) {
+  $("#phoneModal").classList.add("hidden");
+  clearInterval(ph.timer);
+  if (stop && ph.id) api(`/api/phone/share/${ph.id}/stop`, {}).catch(() => {});
+  if (stop) { ph.id = null; ph.file = null; phQrFor = null; }
+}
+$("#phClose").onclick = () => closePhone(false);      // link keeps working until it expires
+$("#phStop").onclick = () => { closePhone(true); toast("Stopped sharing"); };
+$("#phoneModal").addEventListener("click", e => { if (e.target.id === "phoneModal") closePhone(false); });
+$("#phOptimize").onchange = () => ph.file && sendToPhone(ph.file, $("#phOptimize").checked);
 
 /* ------------------------------------------------------------------ boot */
 loadSettings().then(seedRecent);

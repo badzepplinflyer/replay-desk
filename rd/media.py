@@ -260,8 +260,9 @@ def build_compile_cmd(items, out, encoder, quality, transition="cut", tdur=0.5, 
 
 
 class ExportJob:
-    def __init__(self, cmd, total, out, fallback_cmd=None):
+    def __init__(self, cmd, total, out, fallback_cmd=None, thumbnail=True):
         self.cmd, self.total, self.out = cmd, total, Path(out)
+        self.thumbnail = thumbnail
         self.fallback_cmd = fallback_cmd
         self.progress = 0.0
         self.state = "running"
@@ -302,7 +303,8 @@ class ExportJob:
                 self.state, self.error = "error", (err[-1] if err else "ffmpeg failed")
                 self.out.unlink(missing_ok=True)
                 return
-            make_thumbnail(self.out)
+            if self.thumbnail:
+                make_thumbnail(self.out)
             self.progress, self.state = 1.0, "done"
         except Exception as e:
             self.state, self.error = "error", str(e)

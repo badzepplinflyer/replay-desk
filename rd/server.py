@@ -329,6 +329,36 @@ def create_app(recorder, hotkeys_apply, events, version="dev", quit_cb=None, upd
         jobs[jid] = media.ExportJob(cmd, total, out, fb)
         return jsonify(ok=True, job=jid, out=f"Clips/{out.name}")
 
+    # ---------------------------------------------------------- send to phone
+    from .phone import PhoneShare
+    phone = PhoneShare()
+
+    @app.post("/api/phone/share")
+    def phone_share():
+        b = request.get_json(force=True) or {}
+        p = resolve(b.get("f"))
+        try:
+            sh = phone.create(p, bool(b.get("optimize", True)), config.load()["encoder"])
+        except Exception as e:
+            return jsonify(ok=False, error=str(e)), 500
+        st = phone.status(sh.id)
+        st["needs_copy"] = sh.job is not None
+        return jsonify(st)
+
+    @app.get("/api/phone/share/<sid>")
+    def phone_status(sid):
+        return jsonify(phone.status(sid) or abort(404))
+
+    @app.get("/api/phone/qr/<sid>.png")
+    def phone_qr(sid):
+        buf = phone.qr_png(sid) or abort(404)
+        return send_file(buf, mimetype="image/png", max_age=0)
+
+    @app.post("/api/phone/share/<sid>/stop")
+    def phone_stop(sid):
+        phone.stop(sid)
+        return jsonify(ok=True)
+
     @app.post("/api/compile")
     def compile_clips():
         b = request.get_json(force=True) or {}

@@ -291,3 +291,18 @@ input[type=range] { accent-color: var(--accent); }
 .upd-prog { width: 160px; height: 6px; background: var(--bg2); border-radius: 99px; overflow: hidden; }
 .upd-prog div { height: 100%; width: 0; background: var(--seg); transition: width .25s; }
 .version-row { display: flex; justify-content: space-between; align-items: center; margin-top: 2px; }
+
+/* ---------- send to phone ---------- */
+.modal-back { position: fixed; inset: 0; background: rgba(5,6,9,.7); display: grid; place-items: center; z-index: 60; backdrop-filter: blur(3px); }
+.modal { width: min(640px, calc(100vw - 40px)); background: var(--panel); border: 1px solid var(--line2); border-radius: 14px; padding: 18px 20px; box-shadow: 0 20px 60px rgba(0,0,0,.6); }
+.modal-head { display: flex; justify-content: space-between; align-items: center; font-size: 16px; margin-bottom: 4px; }
+.ph-name { color: var(--dim); font-size: 13px; margin-bottom: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ph-body { display: grid; grid-template-columns: 220px 1fr; gap: 18px; align-items: center; }
+#phQr { width: 220px; height: 220px; border-radius: 10px; background: #fff; image-rendering: pixelated; }
+.ph-steps ol { margin: 0 0 12px; padding-left: 20px; line-height: 1.7; }
+.ph-url { background: var(--bg2); border: 1px solid var(--line); border-radius: 7px; padding: 7px 9px; margin: 6px 0 8px; font-size: 12px; word-break: break-all; user-select: all; }
+.ph-note { margin-top: 14px; line-height: 1.5; }
+.modal-foot { display: flex; align-items: center; gap: 10px; margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--line); }
+.modal-foot .check { display: flex; align-items: center; gap: 7px; color: var(--dim); }
+.modal-foot .check input { accent-color: var(--accent); }
+.vactions .btn.phone { flex: 0 0 38px; }

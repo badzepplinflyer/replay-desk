@@ -276,6 +276,38 @@
 </section>
 </main>
 
+<div class="modal-back hidden" id="phoneModal">
+  <div class="modal">
+    <div class="modal-head"><b>📱 Send to phone</b><button class="link" id="phClose">Close</button></div>
+    <div class="ph-name" id="phName"></div>
+    <div id="phPreparing" class="hidden">
+      <div class="hint" style="margin-bottom:8px">Making a phone-friendly copy (1080p, smaller file)…</div>
+      <div class="export-progress"><div class="bar"><div id="phFill"></div></div></div>
+    </div>
+    <div id="phReady" class="hidden">
+      <div class="ph-body">
+        <img id="phQr" alt="QR code">
+        <div class="ph-steps">
+          <ol>
+            <li>Make sure your phone is on the <b>same Wi-Fi</b> as this PC.</li>
+            <li>Open your phone's <b>Camera</b> and point it at the code.</li>
+            <li>Tap the link that pops up, then tap <b>Download video</b>.</li>
+          </ol>
+          <div class="hint">Or type this into your phone's browser:</div>
+          <div class="ph-url mono" id="phUrl"></div>
+          <div class="hint" id="phInfo"></div>
+        </div>
+      </div>
+      <div class="ph-note hint">First time? If Windows asks whether Replay Desk can use the network, click <b>Allow</b>. If your phone can't connect, set your Wi-Fi to a <b>Private network</b> in Windows Settings → Network &amp; internet.</div>
+    </div>
+    <div id="phError" class="error-box hidden"></div>
+    <div class="modal-foot">
+      <label class="check small"><input type="checkbox" id="phOptimize" checked> Phone-friendly copy (1080p, smaller file)</label>
+      <div class="spacer"></div>
+      <button class="btn ghost small" id="phStop">Stop sharing</button>
+    </div>
+  </div>
+</div>
 <div id="toasts"></div>
 <script src="/web/app.js"></script>
 </body>
