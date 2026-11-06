@@ -5,6 +5,7 @@
 #endif
 
 [Setup]
+ChangesAssociations=yes
 AppId={{6E1B4C2A-7F3D-4B8E-9A51-2C7D0E8F4B19}
 AppName=Replay Desk
 AppVersion={#AppVersion}

@@ -171,12 +171,31 @@ class Updater:
         self.on_event("update", f"Installing Replay Desk {version}…")
         if self._quit:
             threading.Timer(0.8, self._quit).start()
+        # whatever happens, never leave the old copy running while the installer replaces it
+        threading.Timer(4.0, lambda: os._exit(0)).start()
         return True
 
 
 def run_installer(path):
-    flags = 0x00000008 | 0x00000200      # DETACHED_PROCESS | CREATE_NEW_PROCESS_GROUP
-    subprocess.Popen([str(path), "/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART", "/CLOSEAPPLICATIONS"], creationflags=flags, close_fds=True)
+    """Start the installer only after this app has fully exited, so none of its
+    files are still in use (otherwise the update can silently fail to apply)."""
+    flags = 0x00000008 | 0x00000200 | 0x08000000   # DETACHED_PROCESS | NEW_PROCESS_GROUP | NO_WINDOW
+    args = "'/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART','/CLOSEAPPLICATIONS'"
+    prof = str(config.DATA_DIR / "window").replace("'", "''")
+    # close the old app window (Edge --app with our own profile) so no "can't reach page" is left behind
+    close_win = ("Get-CimInstance Win32_Process -Filter \"Name='msedge.exe'\" | "
+                 f"Where-Object {{ $_.CommandLine -like '*{prof}*' }} | "
+                 "ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }; ")
+    script = (close_win +
+              f"Wait-Process -Id {os.getpid()} -Timeout 60 -ErrorAction SilentlyContinue; "
+              f"Start-Sleep -Milliseconds 500; "
+              f"Start-Process -FilePath '{str(path)}' -ArgumentList {args}")
+    try:
+        subprocess.Popen(["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-WindowStyle", "Hidden",
+                          "-Command", script], creationflags=flags, close_fds=True)
+    except OSError:
+        subprocess.Popen([str(path), "/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART", "/CLOSEAPPLICATIONS"],
+                         creationflags=flags, close_fds=True)
     try:
         PENDING_FILE.unlink(missing_ok=True)
     except OSError:

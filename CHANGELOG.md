@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.3
+- Updates now finish cleanly: the old version closes on its own, the new one opens — no error box.
+- Desktop and Start menu icons refresh to the new logo after updating.
+
 ## 1.2.2
 - New Replay Desk logo and app icon, now on the desktop shortcut, Start menu, taskbar, tray and installer.
 - Refreshed colours to match the new logo throughout the app, the overlay and the Send to phone page.

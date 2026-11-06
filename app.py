@@ -271,6 +271,10 @@ def main():
         except KeyboardInterrupt:
             quit_app()
     recorder.stop()
+    # Hard exit: background threads (overlay Tk, hotkeys, audio) can otherwise keep the
+    # process alive or crash on interpreter teardown, which shows an error box.
+    logging.shutdown()
+    os._exit(0)
 
 
 if __name__ == "__main__":
