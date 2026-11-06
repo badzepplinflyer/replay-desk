@@ -4,6 +4,8 @@ import re
 import sys
 from pathlib import Path
 
+sys.stdout.reconfigure(encoding="utf-8")   # notes may contain emoji; Windows console defaults to cp1252
+
 ROOT = Path(__file__).resolve().parent.parent
 if sys.argv[1:] == ["--version"]:          # print the app version from rd/version.py
     print(re.search(r'__version__ = "(.+?)"', ROOT.joinpath("rd", "version.py").read_text("utf-8")).group(1))

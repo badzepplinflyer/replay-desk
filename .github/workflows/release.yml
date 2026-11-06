@@ -12,6 +12,9 @@ on:
 permissions:
   contents: write
 
+env:
+  PYTHONUTF8: "1"
+
 concurrency:
   group: release
   cancel-in-progress: false
