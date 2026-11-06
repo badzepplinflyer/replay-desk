@@ -91,7 +91,7 @@ h3 { font: 700 34px/1.05 var(--display); margin: 0 0 14px; letter-spacing: -.2px
 .feature.flip { grid-template-columns: 7fr 5fr; }
 .feature.flip .feature-copy { order: 2; }
 .feature-copy p { color: #c9cfdb; margin: 0 0 14px; max-width: 46ch; }
-.feature .small-shot { justify-self: center; width: min(380px, 100%); }
+.feature .small-shot { justify-self: center; width: min(354px, 100%); }
 
 .facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin: 0; border-top: 1px solid var(--rail); }
 .facts > div { padding: 26px 26px 26px 0; border-bottom: 1px solid var(--rail); }
