@@ -74,10 +74,12 @@ class Overlay(threading.Thread):
         self.cmds.put("reset")
 
     # ------------------------------------------------------------------ API calls
-    def _post(self, path):
+    def _post(self, path, payload=None):
+        body = json.dumps(payload or {}).encode()
+
         def go():
             try:
-                req = urllib.request.Request(self.base + path, data=b"{}", method="POST",
+                req = urllib.request.Request(self.base + path, data=body, method="POST",
                                              headers={"Content-Type": "application/json"})
                 urllib.request.urlopen(req, timeout=5).read()
             except Exception as e:
@@ -151,8 +153,27 @@ class Overlay(threading.Thread):
         close.pack(side="right")
         close.bind("<Button-1>", lambda e: self._hide())
 
-        stat = tk.Frame(body, bg=BG)
-        stat.pack(fill="x", pady=(self._px(26), 0) if side else (0, 0))
+        page = body
+        self.page_settings = None
+        if side:
+            self._tab = getattr(self, "_tab", "controls")
+            tabs = tk.Frame(body, bg=BG)
+            tabs.pack(fill="x", pady=(self._px(20), 0))
+            self.tab_btns = {}
+            for key, label in (("controls", "Controls"), ("settings", "Settings")):
+                t = tk.Label(tabs, text=label, bg=BG, fg=DIM, font=(FONT, 10, "bold"), cursor="hand2",
+                             padx=self._px(2), pady=self._px(6))
+                t.pack(side="left", padx=(0, self._px(18)))
+                t.bind("<Button-1>", lambda e, k=key: self._set_tab(k))
+                self.tab_btns[key] = t
+            self.tab_line = tk.Frame(body, bg=LINE, height=1)
+            self.tab_line.pack(fill="x")
+            page = self.page_main = tk.Frame(body, bg=BG)
+            self.page_settings = tk.Frame(body, bg=BG)
+            self._build_settings(self.page_settings)
+
+        stat = tk.Frame(page, bg=BG)
+        stat.pack(fill="x", pady=(self._px(22), 0) if side else (0, 0))
         if not side:
             stat.pack_forget()
             stat = head          # floating: status sits in the header row
@@ -163,11 +184,11 @@ class Overlay(threading.Thread):
         self.status_lbl = tk.Label(stat, text="Replay Desk", bg=BG, fg=TEXT,
                                    font=(FONT, 20 if side else 10, "bold"))
         self.status_lbl.pack(side="left", padx=(self._px(9 if side else 7), 0))
-        self.sub_lbl = tk.Label(body, text="", bg=BG, fg=DIM, font=(FONT, 10 if side else 8), anchor="w",
+        self.sub_lbl = tk.Label(page, text="", bg=BG, fg=DIM, font=(FONT, 10 if side else 8), anchor="w",
                                 justify="left", wraplength=self._px(SIDE_WIDTH - 50) if side else 0)
         self.sub_lbl.pack(fill="x", pady=(self._px(4), self._px(22 if side else 8)))
 
-        btns = tk.Frame(body, bg=BG)
+        btns = tk.Frame(page, bg=BG)
         btns.pack(fill="x")
         self.b_replay = self._button(btns, "⟲   Save replay", lambda: self._post("/api/replay/save"), side)
         self.b_record = self._button(btns, "●   Record", lambda: self._post("/api/record/toggle"), side)
@@ -184,8 +205,8 @@ class Overlay(threading.Thread):
                 btns.grid_columnconfigure(i, weight=1)
 
         if side:
-            tk.Label(body, text="Last saved", bg=BG, fg=FAINT, font=(FONT, 9), anchor="w").pack(fill="x", pady=(self._px(18), 0))
-            self.saved_lbl = tk.Label(body, text="Nothing saved yet this session", bg=BG, fg=TEXT,
+            tk.Label(page, text="Last saved", bg=BG, fg=FAINT, font=(FONT, 9), anchor="w").pack(fill="x", pady=(self._px(18), 0))
+            self.saved_lbl = tk.Label(page, text="Nothing saved yet this session", bg=BG, fg=TEXT,
                                       font=(FONT, 10), anchor="w", justify="left", wraplength=self._px(SIDE_WIDTH - 50))
             self.saved_lbl.pack(fill="x", pady=(self._px(2), 0))
         else:
@@ -193,6 +214,8 @@ class Overlay(threading.Thread):
         self.hint_lbl = tk.Label(body, text="", bg=BG, fg=FAINT, font=(FONT, 9 if side else 8), anchor="w", justify="left",
                                  wraplength=self._px(SIDE_WIDTH - 50) if side else 0)
         self.hint_lbl.pack(side="bottom" if side else "top", fill="x", pady=(self._px(8), 0))
+        if side:
+            self._set_tab(self._tab)
 
         if not side:   # drag anywhere on the floating panel (except buttons)
             for w in (body, head, self.status_lbl, self.sub_lbl, self.hint_lbl, self.dot):
@@ -203,6 +226,101 @@ class Overlay(threading.Thread):
         self.root.update_idletasks()
         self._place()
         self._apply_win_styles()
+
+    # ------------------------------------------------------------ settings tab
+    SETTING_ROWS = [
+        ("buffer_seconds", "Replay length", [(30, "30s"), (60, "1m"), (120, "2m"), (300, "5m"), (600, "10m")]),
+        ("quality", "Quality", [("low", "Low"), ("medium", "Medium"), ("high", "High")]),
+        ("fps", "Frame rate", [(30, "30"), (60, "60"), (120, "120")]),
+        ("game_audio", "Game audio", [(True, "On"), (False, "Off")]),
+        ("mic_enabled", "Microphone", [(True, "On"), (False, "Off")]),
+        ("sound_feedback", "Sound effects", [(True, "On"), (False, "Off")]),
+        ("start_buffer_on_launch", "Buffer at startup", [(True, "On"), (False, "Off")]),
+    ]
+    CAPTURE_KEYS = ("buffer_seconds", "quality", "fps", "game_audio", "mic_enabled")
+
+    def _build_settings(self, page):
+        cur = self.load_settings() or {}
+        self._seg = {}
+        tk.Frame(page, bg=BG, height=self._px(14)).pack(fill="x")
+        for key, label, opts in self.SETTING_ROWS:
+            row = tk.Frame(page, bg=BG)
+            row.pack(fill="x", pady=(0, self._px(12)))
+            tk.Label(row, text=label, bg=BG, fg=DIM, font=(FONT, 9), anchor="w").pack(fill="x")
+            seg = tk.Frame(row, bg=LINE)
+            seg.pack(fill="x", pady=(self._px(4), 0))
+            cells = []
+            for i, (val, text) in enumerate(opts):
+                c = tk.Label(seg, text=text, bg=PANEL, fg=TEXT, font=(FONT, 9, "bold"), cursor="hand2",
+                             pady=self._px(7))
+                c.grid(row=0, column=i, sticky="nsew", padx=(0 if i == 0 else 1, 0), pady=1)
+                seg.grid_columnconfigure(i, weight=1, uniform=key)
+                c.bind("<Button-1>", lambda e, k=key, v=val: self._set_setting(k, v))
+                cells.append((val, c))
+            self._seg[key] = cells
+            self._paint_seg(key, cur.get(key))
+
+        tk.Label(page, text="Hotkeys", bg=BG, fg=DIM, font=(FONT, 9), anchor="w").pack(fill="x", pady=(self._px(4), 0))
+        hk = tk.Frame(page, bg=BG)
+        hk.pack(fill="x", pady=(self._px(2), self._px(12)))
+        self.hk_vals = {}
+        for i, (k, name) in enumerate((("hotkey_replay", "Save replay"), ("hotkey_record", "Record"),
+                                       ("hotkey_overlay", "Overlay"))):
+            tk.Label(hk, text=name, bg=BG, fg=TEXT, font=(FONT, 9), anchor="w").grid(row=i, column=0, sticky="w")
+            v = tk.Label(hk, text="", bg=BG, fg=DIM, font=(FONT, 9), anchor="w")
+            v.grid(row=i, column=1, sticky="w", padx=(self._px(16), 0))
+            self.hk_vals[k] = v
+        self._paint_hotkeys(cur)
+
+        links = tk.Frame(page, bg=BG)
+        links.pack(fill="x")
+        self._button(links, "Open saved clips folder", self._open_output, True).pack(fill="x", pady=(0, self._px(8)))
+        if self.open_app:
+            self._button(links, "All settings & hotkeys…", lambda: (self.open_app(), self._hide()), True).pack(fill="x")
+
+    def _paint_seg(self, key, value):
+        for val, c in self._seg.get(key, []):
+            on = val == value
+            c.configure(bg=RED if on else PANEL, fg="#ffffff" if on else DIM)
+
+    def _paint_hotkeys(self, cur):
+        for k, v in self.hk_vals.items():
+            v.configure(text=cur.get(k, ""))
+
+    def _set_setting(self, key, value):
+        self._paint_seg(key, value)
+        self._post("/api/settings", {key: value})
+        if key in self.CAPTURE_KEYS and self._status.get("buffer_running"):
+            self._note("Saved. The buffer restarts for a moment to apply it.")
+        else:
+            self._note("Saved.")
+
+    def _note(self, text):
+        self.hint_lbl.configure(text=text, fg=GREEN)
+        self._note_until = time.time() + 3
+
+    def _open_output(self):
+        try:
+            import os
+            os.startfile((self.load_settings() or {}).get("output_dir", ""))
+        except Exception as e:
+            log.warning("open folder failed: %s", e)
+
+    def _set_tab(self, key):
+        self._tab = key
+        for k, t in self.tab_btns.items():
+            t.configure(fg=TEXT if k == key else FAINT,
+                        highlightthickness=0, borderwidth=0)
+        if key == "settings":
+            self.page_main.pack_forget()
+            cur = self.load_settings() or {}       # pick up changes made in the main window
+            for k in self._seg:
+                self._paint_seg(k, cur.get(k))
+            self._paint_hotkeys(cur)
+            self.page_settings.pack(fill="both", expand=True)
+        else:
+            self.page_settings.pack_forget()
+            self.page_main.pack(fill="both", expand=True)
 
     def _logo_image(self, height):
         """The Replay Desk logo (horizontal version) sized for the panel header."""
@@ -418,8 +536,10 @@ class Overlay(threading.Thread):
             when = "just now" if ago < 60 else f"{ago // 60} min ago"
             self.saved_lbl.configure(text=f"{name}\n{when}")
         st = self.load_settings()
+        if time.time() < getattr(self, "_note_until", 0):
+            return                      # keep the "Saved." note up for a moment
         if side:
-            self.hint_lbl.configure(text=f"Press {st.get('hotkey_overlay')} to hide this panel.\n"
+            self.hint_lbl.configure(fg=FAINT, text=f"Press {st.get('hotkey_overlay')} to hide this panel.\n"
                                          f"Save replay: {st.get('hotkey_replay')}   Record: {st.get('hotkey_record')}")
         else:
             self.hint_lbl.configure(text=f"Replay {st.get('hotkey_replay')}   Record {st.get('hotkey_record')}\n"

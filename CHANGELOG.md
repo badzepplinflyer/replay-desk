@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.2.4
+- New Settings tab in the side overlay: replay length, quality, frame rate, game audio, mic, sound effects and buffer-at-startup — change them without leaving your game.
+
 ## 1.2.3
 - Updates now finish cleanly: the old version closes on its own, the new one opens — no error box.
 - Desktop and Start menu icons refresh to the new logo after updating.
