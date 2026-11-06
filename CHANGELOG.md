@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.1
+- New side panel overlay: press your overlay hotkey and a control panel slides in from the right edge of the screen, with Save replay, Record, the buffer switch, a live recording timer and your last saved clip. Press it again and it slides away. Works over fullscreen and borderless games and never takes focus from your game.
+- Prefer the small floating panel? Choose it under Settings → Overlay style.
+- The floating panel's hotkey hint no longer gets cut off.
+
 ## 1.2.0
 - New: Send to phone. Click the 📱 button on any video in the Library (or after exporting a clip or compilation), scan the QR code with your phone's camera, and download the video over your home Wi-Fi. No cables, accounts or cloud uploads.
 - Big videos (1440p, 120 fps, multiple audio tracks) are turned into a phone-friendly 1080p copy automatically. Untick the option to send the original.

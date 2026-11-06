@@ -43,6 +43,7 @@ DEFAULTS = {
     "hotkey_record": "Ctrl+Alt+F9",
     "hotkey_overlay": "Ctrl+Alt+O",
     "overlay_on_launch": False,
+    "overlay_style": "side",      # side = slides in from the screen edge, float = small draggable panel
     "overlay_x": -1,
     "overlay_y": -1,
     "sound_feedback": True,

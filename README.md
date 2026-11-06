@@ -29,7 +29,7 @@ You'll hear two quick beeps when a replay saves. Files are named after the game,
 
 ### Overlay
 
-Press **Ctrl+Alt+O** while you play to pop up a small control panel on top of the game, with **Save replay**, **Record / Stop** and **Start / Stop buffer** buttons, plus live status and the recording timer. Clicking it doesn't take focus from your game. Drag it wherever you like and it remembers the spot. Press the hotkey again, or click ✕, to hide it. You can also open it from the **⧉ Overlay** button in the app or from the tray menu. The overlay shows over games in borderless or windowed mode, not exclusive fullscreen.
+Press your overlay hotkey (**Ctrl+Alt+O** by default) while you play and a control panel slides in from the right edge of the screen, with **Save replay**, **Record / Stop** and **Start / Stop buffer** buttons, live status, the recording timer and your last saved clip. Press it again to slide it away. Prefer a small floating panel? Choose it under **Settings → Overlay style**. Clicking it doesn't take focus from your game. Drag it wherever you like and it remembers the spot. Press the hotkey again, or click ✕, to hide it. You can also open it from the **⧉ Overlay** button in the app or from the tray menu. The overlay shows over games in borderless or windowed mode, not exclusive fullscreen.
 
 ### Making a clip
 

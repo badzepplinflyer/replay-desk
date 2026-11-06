@@ -224,7 +224,7 @@ def main():
     hk = HotkeyManager()
     hk.start()
     from rd.overlay import Overlay
-    overlay = Overlay(URL, config.load, config.save)
+    overlay = Overlay(URL, config.load, config.save, open_app=open_window)
     overlay.start()
     applier = HotkeyApplier(hk, recorder, overlay)
     applier()
