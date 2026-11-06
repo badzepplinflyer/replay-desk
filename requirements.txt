@@ -1,6 +1,0 @@
-flask>=3.0
-pyaudiowpatch>=0.2.12
-pystray>=0.19
-pillow>=10.0
-send2trash>=1.8
-qrcode>=7.4
