@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Replay Desk: instant replays and clips for Windows games</title>
+<meta name="description" content="Replay Desk records your game in the background. Press one key and the last minutes are saved. Trim clips, stitch highlights and send them to your phone. $14.99 once, 14 days free.">
+<meta property="og:title" content="Replay Desk">
+<meta property="og:description" content="Save the last minute, after it happens. Instant replays, clip editor and highlight reels for Windows games.">
+<meta property="og:image" content="img/capture.webp">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='4' y='12' width='56' height='40' rx='10' fill='%23161a22' stroke='%23ff4655' stroke-width='5'/><circle cx='32' cy='32' r='10' fill='%23ff4655'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;1,700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+
+<header class="bar">
+  <a class="brand" href="#top" aria-label="Replay Desk home"><span class="mark" aria-hidden="true"></span>Replay Desk</a>
+  <nav>
+    <a href="#features">Features</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">Questions</a>
+    <a class="btn small" href="https://github.com/badzepplinflyer/replay-desk/releases/latest/download/ReplayDesk-Setup.exe">Download</a>
+  </nav>
+</header>
+
+<main id="top">
+
+<section class="hero">
+  <div class="hero-copy">
+    <h1>Save the last minute, after it happens.</h1>
+    <p class="lede">Replay Desk quietly records your game in the background. Pull off the pass, the landing or the clutch round, press one key, and the last few minutes are saved as a video.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/badzepplinflyer/replay-desk/releases/latest/download/ReplayDesk-Setup.exe">Download free trial</a>
+      <a class="btn ghost" href="#pricing">$14.99, once</a>
+    </div>
+    <p class="fine">Windows 10 and 11. Full version free for 14 days, no card needed.</p>
+  </div>
+
+  <figure class="deck" aria-label="Animated example: the replay buffer keeps the last two minutes, and a hotkey saves them">
+    <div class="deck-top">
+      <span class="tally" aria-hidden="true"></span>
+      <span class="tc" id="tc">00:42:17:08</span>
+      <span class="deck-state">Buffer on</span>
+    </div>
+    <div class="track" id="track">
+      <div class="ticks" aria-hidden="true"></div>
+      <div class="window" id="win"><span>last 2:00</span></div>
+      <div class="head" id="head"></div>
+    </div>
+    <div class="deck-foot">
+      <kbd class="key" id="key">Ctrl</kbd><kbd class="key" id="key2">Alt</kbd><kbd class="key" id="key3">F10</kbd>
+      <div class="saved" id="saved" role="status" aria-live="polite">
+        <span class="saved-dot"></span>
+        <span><b>Replay saved</b><br><span class="mono" id="savedName">iRacing_2026-11-04_21-16-56.mp4</span></span>
+      </div>
+    </div>
+  </figure>
+</section>
+
+<figure class="shot wide">
+  <img src="img/capture.webp" width="1800" height="700" alt="Replay Desk's Capture screen with the replay buffer running at 120 fps, game and mic audio meters, Save replay and Start recording buttons, and a list of recent saves">
+</figure>
+
+<section class="features" id="features">
+  <h2>Everything after the moment</h2>
+
+  <article class="feature">
+    <div class="feature-copy">
+      <h3>Cut it down to the good part</h3>
+      <p>Open any replay or recording, mark where the action starts and ends, and keep as many pieces as you like. They're joined into one clip in the order you choose.</p>
+      <p>Your voice and the game sound are recorded on separate tracks, so you can turn your mic down or mute it without touching the game.</p>
+    </div>
+    <img src="img/editor.webp" width="1600" height="1000" loading="lazy" alt="The clip editor with three segments marked on a timeline, a list of the segments, game and mic volume sliders, and an Export clip button">
+  </article>
+
+  <article class="feature flip">
+    <div class="feature-copy">
+      <h3>Stitch your best moments together</h3>
+      <p>Pick a few clips, drag them into order, choose a cut, fade or crossfade, and export one highlight video. Clips from different games and resolutions are matched up for you.</p>
+    </div>
+    <img src="img/compile.webp" width="1600" height="1000" loading="lazy" alt="The Compile screen with three clips in order, a preview player and transition options for Cut, Fade to black and Crossfade">
+  </article>
+
+  <article class="feature">
+    <div class="feature-copy">
+      <h3>Controls that sit on top of your game</h3>
+      <p>Press Ctrl+Alt+O for a small panel with Save replay, Record and the buffer switch. Clicking it doesn't pull focus from your game, and it stays where you drag it.</p>
+    </div>
+    <img class="small-shot" src="img/overlay.webp" width="504" height="214" loading="lazy" alt="The floating overlay panel showing a recording timer at 12:34 with Save replay, Stop and Stop buffer buttons">
+  </article>
+
+  <article class="feature flip">
+    <div class="feature-copy">
+      <h3>Send it to your phone</h3>
+      <p>Click the phone button on any video and scan the code with your camera. The video downloads over your home Wi-Fi, already shrunk to a phone-friendly size. Nothing is uploaded anywhere.</p>
+    </div>
+    <img src="img/phone.webp" width="1100" height="727" loading="lazy" alt="The Send to phone window with a QR code and three steps to download the video on a phone">
+  </article>
+
+  <dl class="facts">
+    <div><dt>Your frame rate stays put</dt><dd>Video is encoded on your graphics card (NVIDIA or AMD), not your CPU.</dd></div>
+    <div><dt>Files named after the game</dt><dd>Replays save as iRacing_2026-11-04.mp4, not Video 37.mp4.</dd></div>
+    <div><dt>Any length</dt><dd>Keep the last 30 seconds or the last 20 minutes, or record a whole session.</dd></div>
+    <div><dt>Updates itself</dt><dd>New versions install with one click, and you keep every future update.</dd></div>
+    <div><dt>Stays on your PC</dt><dd>No account, no cloud. Your videos never leave your computer unless you send them.</dd></div>
+    <div><dt>Works with your games</dt><dd>Sim racing, flight sims, shooters: anything running in borderless or windowed mode.</dd></div>
+  </dl>
+</section>
+
+<section class="pricing" id="pricing">
+  <div class="price-copy">
+    <h2>One price. Yours for good.</h2>
+    <p>Use the full version free for 14 days. If you like it, buy a lifetime license and paste the key into the app. No subscription, and every future update is included.</p>
+  </div>
+  <div class="price-box">
+    <div class="price"><span class="amount">$14.99</span><span class="once">one time</span></div>
+    <ul>
+      <li>Instant replays and full recordings</li>
+      <li>Clip editor, highlight reels, send to phone</li>
+      <li>Use it on up to 3 of your PCs</li>
+      <li>All future updates</li>
+    </ul>
+    <a class="btn primary block" id="buyBtn" href="#pricing" aria-disabled="true">Lifetime licenses coming soon</a>
+    <a class="btn ghost block" href="https://github.com/badzepplinflyer/replay-desk/releases/latest/download/ReplayDesk-Setup.exe">Start the free trial</a>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <h2>Questions</h2>
+  <details>
+    <summary>What do I need to run it?</summary>
+    <p>A 64-bit Windows 10 or 11 PC. An NVIDIA or AMD graphics card is best because it does the video encoding; without one, Replay Desk uses your CPU instead.</p>
+  </details>
+  <details>
+    <summary>Windows says "Windows protected your PC". Is that normal?</summary>
+    <p>Yes. Windows shows that for new apps from small developers that haven't built up a reputation yet. Click <b>More info</b>, then <b>Run anyway</b>. You'll only see it once.</p>
+  </details>
+  <details>
+    <summary>Will it slow my game down?</summary>
+    <p>Hardly at all. Your graphics card has a separate video encoder built in, and that's what Replay Desk uses, so your game keeps its frame rate.</p>
+  </details>
+  <details>
+    <summary>Does the overlay work in fullscreen games?</summary>
+    <p>The overlay shows in borderless and windowed modes. In exclusive fullscreen, Windows doesn't allow anything on top, but the hotkeys still save replays and start recordings.</p>
+  </details>
+  <details>
+    <summary>What happens when the trial ends?</summary>
+    <p>Recording, replays and exporting pause until you add a license key. Your saved videos stay right where they are, and you can still watch and find them.</p>
+  </details>
+  <details>
+    <summary>I got a new PC. Can I move my license?</summary>
+    <p>Yes. Each license works on up to 3 PCs at once. To move it, open Settings, choose <b>Remove from this PC</b> on the old one, and enter the key on the new one.</p>
+  </details>
+  <details>
+    <summary>What does Replay Desk send over the internet?</summary>
+    <p>Only two things: a check for new versions, and a check that your license key is valid. Your videos, settings and usage stay on your PC. See the <a href="privacy.html">privacy page</a>.</p>
+  </details>
+</section>
+
+</main>
+
+<footer class="foot">
+  <span class="brand"><span class="mark" aria-hidden="true"></span>Replay Desk</span>
+  <a href="privacy.html">Privacy</a>
+  <a href="https://github.com/badzepplinflyer/replay-desk/releases/latest/download/ReplayDesk-Setup.exe">Download</a>
+  <span class="copy">© 2026 Replay Desk</span>
+</footer>
+
+<script>
+/* Store link: set this once the checkout page exists. */
+const CHECKOUT_URL = "";
+if (CHECKOUT_URL) {
+  const b = document.getElementById("buyBtn");
+  b.href = CHECKOUT_URL; b.textContent = "Buy lifetime license"; b.removeAttribute("aria-disabled");
+}
+
+/* The replay deck: a rolling two-minute window follows the playhead; every few
+   seconds the hotkey is "pressed" and the window is saved as a file. */
+(function () {
+  const tcEl = document.getElementById("tc"), head = document.getElementById("head"), win = document.getElementById("win");
+  const keys = ["key", "key2", "key3"].map(id => document.getElementById(id));
+  const saved = document.getElementById("saved"), savedName = document.getElementById("savedName");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const games = ["iRacing", "MSFS2024", "HLLVietnam", "ACC", "RocketLeague"];
+  let frames = (42 * 60 + 17) * 60 + 8, n = 0;
+  const pad = v => String(v).padStart(2, "0");
+  function tc() {
+    const f = frames % 60, s = Math.floor(frames / 60);
+    return `${pad(Math.floor(s / 3600))}:${pad(Math.floor(s / 60) % 60)}:${pad(s % 60)}:${pad(f)}`;
+  }
+  if (reduce) { head.style.left = "78%"; win.style.left = "38%"; saved.classList.add("show"); return; }
+  const start = performance.now(), loop = 9000;
+  function frame(t) {
+    frames = (42 * 60 + 17) * 60 + Math.floor((t - start) / 1000 * 60);
+    tcEl.textContent = tc();
+    const p = ((t - start) % loop) / loop;              // 0..1 across the track
+    const x = 30 + p * 66;                              // playhead from 30% to 96%
+    head.style.left = x + "%";
+    win.style.left = (x - 26) + "%";
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+  function press() {
+    keys.forEach(k => k.classList.add("down"));
+    win.classList.add("flash");
+    setTimeout(() => keys.forEach(k => k.classList.remove("down")), 260);
+    setTimeout(() => win.classList.remove("flash"), 700);
+    const d = new Date(), g = games[n++ % games.length];
+    savedName.textContent = `${g}_${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}_${pad(d.getHours())}-${pad(d.getMinutes())}-${pad(d.getSeconds())}.mp4`;
+    saved.classList.remove("show"); void saved.offsetWidth; saved.classList.add("show");
+  }
+  setTimeout(press, 2600);
+  setInterval(press, loop);
+})();
+</script>
+</body>
+</html>
