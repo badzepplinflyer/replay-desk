@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /thanks.html
 
 Sitemap: https://getreplaydesk.com/sitemap.xml

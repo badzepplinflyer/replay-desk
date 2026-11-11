@@ -19,13 +19,16 @@ body { margin: 0; position: relative; isolation: isolate; background: var(--grap
 a { color: inherit; }
 img { max-width: 100%; height: auto; display: block; }
 .mono { font-family: var(--mono); font-size: .85em; }
+.skip { position: absolute; left: 16px; top: -60px; z-index: 20; padding: 10px 16px; border-radius: 8px; background: var(--paper); color: var(--graphite); font-weight: 600; text-decoration: none; }
+.skip:focus { top: 12px; }
 :focus-visible { outline: 3px solid var(--signal); outline-offset: 3px; border-radius: 4px; }
 
 /* ---------- buttons ---------- */
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 24px; border-radius: 10px;
   font: 600 17px/1 var(--body); text-decoration: none; border: 2px solid transparent; cursor: pointer; transition: background .15s, border-color .15s; }
-.btn.primary { background: var(--tally); color: #fff; }
-.btn.primary:hover { background: #ff3b41; }
+/* a touch deeper than the logo red so white button text meets WCAG AA contrast */
+.btn.primary { background: #e0121a; color: #fff; }
+.btn.primary:hover { background: #c80f16; }
 .btn.ghost { border-color: var(--rail); color: var(--paper); }
 .btn.ghost:hover { border-color: var(--fog); }
 .btn.small { padding: 9px 16px; font-size: 15px; background: var(--paper); color: var(--graphite); }
@@ -97,6 +100,14 @@ main { max-width: 1240px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 48px); }
 .shot { margin: 0 0 clamp(72px, 10vw, 128px); }
 .shot img, .feature img { border-radius: 12px; border: 1px solid var(--rail); box-shadow: 0 30px 80px -40px rgba(0,0,0,.8); }
 
+/* ---------- how it works ---------- */
+.how { padding-bottom: clamp(72px, 10vw, 120px); }
+.steps { list-style: none; counter-reset: step; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(20px, 3vw, 36px); padding: 0; margin: 0; }
+.steps li { counter-increment: step; padding: 28px; background: var(--deck); border: 1px solid var(--rail); border-radius: 16px; }
+.steps li::before { content: counter(step); display: inline-grid; place-items: center; width: 36px; height: 36px; margin-bottom: 16px; border-radius: 50%; background: var(--tally); font: 700 20px/1 var(--display); }
+.steps h3 { font-size: 28px; }
+.steps p { margin: 0; color: #c9cfdb; font-size: 17px; }
+
 /* ---------- features ---------- */
 h2 { font: 700 clamp(38px, 4.6vw, 60px)/1 var(--display); margin: 0 0 40px; letter-spacing: -.3px; text-wrap: balance; }
 h3 { font: 700 34px/1.05 var(--display); margin: 0 0 14px; letter-spacing: -.2px; }
@@ -146,6 +157,7 @@ h3 { font: 700 34px/1.05 var(--display); margin: 0 0 14px; letter-spacing: -.2px
   .hero, .feature, .feature.flip, .pricing { grid-template-columns: 1fr; }
   .feature.flip .feature-copy { order: 0; }
   .facts { grid-template-columns: 1fr 1fr; }
+  .steps { grid-template-columns: 1fr; }
   .bar nav { gap: 18px; }
   .bar nav a.opt { display: none; }
 }

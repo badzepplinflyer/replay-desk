@@ -56,6 +56,7 @@
 <link rel="stylesheet" href="site.css">
 </head>
 <body>
+<a class="skip" href="#top">Skip to content</a>
 
 <header class="bar">
   <a class="brand" href="#top"><img src="img/lockup.webp" width="415" height="48" alt="Replay Desk"></a>
@@ -82,7 +83,7 @@
     <p class="fine">ReplayDesk-Setup.exe · 64-bit Windows 10 and 11 · about 75 MB. Try every feature free for 14 days, then pay once to keep it. No subscription. <a href="download.html">System requirements and install help</a></p>
   </div>
 
-  <figure class="deck" aria-label="Animated example: the replay buffer keeps the last two minutes, and a hotkey saves them">
+  <figure class="deck" aria-hidden="true">
     <div class="deck-top">
       <span class="tally" aria-hidden="true"></span>
       <span class="tc" id="tc">00:42:17:08</span>
@@ -95,7 +96,7 @@
     </div>
     <div class="deck-foot">
       <kbd class="key" id="key">Your hotkey</kbd>
-      <div class="saved" id="saved" role="status" aria-live="polite">
+      <div class="saved" id="saved">
         <span class="saved-dot"></span>
         <span><b>Replay saved</b><br><span class="mono" id="savedName">iRacing_2026-11-04_21-16-56.mp4</span></span>
       </div>
@@ -107,6 +108,15 @@
   <figcaption class="sr-only">The Capture screen, where the replay buffer runs and recent saves are listed</figcaption>
   <img src="img/capture.webp" width="1800" height="700" alt="Replay Desk's Capture screen with the replay buffer running at 120 fps, game and mic audio meters, Save replay and Start recording buttons, and recent gameplay saves">
 </figure>
+
+<section class="how" aria-labelledby="how-title">
+  <h2 id="how-title">How it works</h2>
+  <ol class="steps">
+    <li><h3>Leave it running</h3><p>Replay Desk keeps a rolling replay buffer of your screen, game sound and mic while you play. Choose how much it keeps, from the last 30 seconds up to 20 minutes, at 30, 60 or 120 fps.</p></li>
+    <li><h3>Save the moment</h3><p>Press your save hotkey and the buffer is saved as an MP4 named after the game. Want the whole session? Start a full recording instead.</p></li>
+    <li><h3>Trim, combine, share</h3><p>Cut replays down in the clip editor, join clips into a highlight video, or send any video to your phone over your home Wi-Fi.</p></li>
+  </ol>
+</section>
 
 <section class="features" id="features">
   <h2>Everything after the moment</h2>
@@ -203,7 +213,7 @@
   </details>
   <details>
     <summary>What happens when the trial ends?</summary>
-    <p>Recording, replays and exporting pause until you add a license key. Your saved videos stay right where they are, and you can still watch and find them.</p>
+    <p>Recording, saving replays, exporting and sending to your phone pause until you add a license key. Your saved videos stay right where they are, and you can still watch and find them.</p>
   </details>
   <details>
     <summary>I got a new PC. Can I move my license?</summary>
