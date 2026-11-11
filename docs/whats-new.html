@@ -32,8 +32,18 @@
   .toc p { margin: 0 0 8px; color: var(--fog); font-size: 15px; }
   .toc ul { margin: 0; padding-left: 20px; columns: 2 260px; }
   .toc li { margin: 0 0 6px; }
-  .ver h2 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; }
-  .ver .date { font: 500 16px/1 var(--body); color: var(--fog); letter-spacing: 0; }
+  .ver { margin-top: 48px; padding-top: 8px; border-top: 1px solid var(--rail); }
+  .ver h2 { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; margin-top: 32px; }
+  .ver .date { font: 500 16px/1.2 var(--body); color: var(--fog); letter-spacing: 0; flex-basis: 100%; }
+  .latest { font: 600 13px/1 var(--body); letter-spacing: .06em; text-transform: uppercase; color: var(--signal); border: 1px solid currentColor; border-radius: 999px; padding: 5px 10px; }
+  .doc h3.kind { display: inline-block; font: 600 14px/1 var(--body); letter-spacing: .08em; text-transform: uppercase; padding: 6px 12px; border-radius: 999px; margin: 26px 0 10px; }
+  .kind.new, .pill.new { color: #ff6b70; background: rgba(240,20,28,.14); }
+  .kind.improved, .pill.improved { color: #8fb4ff; background: rgba(90,140,255,.14); }
+  .kind.fixed, .pill.fixed { color: #f5c46b; background: rgba(245,180,60,.13); }
+  .pill { font: 600 13px/1 var(--body); padding: 4px 9px; border-radius: 999px; white-space: nowrap; }
+  .legend { font-size: 16px; }
+  .ver ul { margin: 0; padding-left: 22px; }
+  .ver li .v, .legend .v { font: 500 13px/1 var(--mono); color: var(--fog); border: 1px solid var(--rail); border-radius: 6px; padding: 3px 6px; margin-left: 6px; white-space: nowrap; }
 </style>
 </head>
 <body>
@@ -51,140 +61,118 @@
 <article class="doc">
   <h1>What's new in Replay Desk</h1>
   <p>Every update is free for license holders. Replay Desk tells you when a new version is ready; click <b>Update now</b> or turn on <b>Install updates automatically</b> in Settings. Installers for each version are also on <a href="https://github.com/badzepplinflyer/replay-desk/releases">GitHub</a>.</p>
+  <p class="legend">Feature updates change the middle number (1.5 → 1.6). Fix updates only change the last number (1.6.0 → 1.6.1). Each change is marked <span class="pill new">New</span>, <span class="pill improved">Improved</span> or <span class="pill fixed">Fixed</span>. A small tag like <span class="v">1.6.1</span> shows which update a change came in.</p>
 
-<section class="ver" aria-labelledby="v1-6-1">
-<h2 id="v1-6-1">Version 1.6.1 <span class="date">November 11, 2026</span></h2>
+<section class="ver" aria-labelledby="v1-6">
+<h2 id="v1-6">Version 1.6 <span class="latest">Latest</span><span class="date">1.6.0 – 1.6.1 · November 11, 2026</span></h2>
+<h3 class="kind new">New</h3>
 <ul>
-<li>Fixed: the blurred background on vertical videos could show green and black halves instead of a blur. If you made vertical videos with 1.6.0, make them again.</li>
-</ul>
-</section>
-
-<section class="ver" aria-labelledby="v1-6-0">
-<h2 id="v1-6-0">Version 1.6.0 <span class="date">November 11, 2026</span></h2>
-<ul>
-<li>Vertical videos for Shorts, TikTok and Reels can now zoom out. Keep the whole screen in frame or just the part you want, with a live phone-shaped preview.</li>
+<li>Vertical videos for Shorts, TikTok and Reels can zoom out. Keep the whole screen in frame or just the part you want, with a live phone-shaped preview.</li>
 <li>Fill the space above and below a vertical video with a blurred copy of your gameplay, or plain black.</li>
 <li>Library: switch between tile view and a new list view. Replay Desk remembers your choice.</li>
 </ul>
-</section>
-
-<section class="ver" aria-labelledby="v1-5-1">
-<h2 id="v1-5-1">Version 1.5.1 <span class="date">November 11, 2026</span></h2>
+<h3 class="kind fixed">Fixed</h3>
 <ul>
-<li>Every screen is now centered on wide and ultrawide monitors.</li>
+<li>The blurred background on vertical videos could show green and black halves instead of a blur. If you made vertical videos with 1.6.0, make them again. <span class="v">1.6.1</span></li>
 </ul>
 </section>
 
-<section class="ver" aria-labelledby="v1-5-0">
-<h2 id="v1-5-0">Version 1.5.0 <span class="date">November 11, 2026</span></h2>
+<section class="ver" aria-labelledby="v1-5">
+<h2 id="v1-5">Version 1.5 <span class="date">1.5.0 – 1.5.1 · November 11, 2026</span></h2>
+<h3 class="kind new">New</h3>
+<ul>
+<li>Library: sort by newest, oldest, longest, largest or name, and see how many videos you have.</li>
+</ul>
+<h3 class="kind improved">Improved</h3>
 <ul>
 <li>A fresh new look across the whole app, with page headers, rounded filter pills and cleaner cards on every screen.</li>
 <li>Library: hover a video to see Edit, Rename, Share and Send to phone. Show in folder and Delete are in the ••• menu.</li>
-<li>Library: new sort menu (newest, oldest, longest, largest, name) and a video count.</li>
 <li>Capture and Compile show the buffer status and your compilation's clip count and length at a glance.</li>
 </ul>
-</section>
-
-<section class="ver" aria-labelledby="v1-4-1">
-<h2 id="v1-4-1">Version 1.4.1 <span class="date">November 11, 2026</span></h2>
+<h3 class="kind fixed">Fixed</h3>
 <ul>
-<li>The Share window shows each site's logo: YouTube, YouTube Shorts, TikTok, Instagram, Discord, X and email.</li>
-<li>Fixed: clicking the icon on the Send to phone button could open the editor instead.</li>
+<li>Screens weren't centered on wide and ultrawide monitors. <span class="v">1.5.1</span></li>
 </ul>
 </section>
 
-<section class="ver" aria-labelledby="v1-4-0">
-<h2 id="v1-4-0">Version 1.4.0 <span class="date">November 11, 2026</span></h2>
+<section class="ver" aria-labelledby="v1-4">
+<h2 id="v1-4">Version 1.4 <span class="date">1.4.0 – 1.4.1 · November 11, 2026</span></h2>
+<h3 class="kind new">New</h3>
 <ul>
-<li>New <b>Share</b> button on every video in the Library, and after exporting a clip or compilation.</li>
+<li><b>Share</b> button on every video in the Library, and after exporting a clip or compilation.</li>
 <li>Make a copy that fits where you're posting it: <b>YouTube</b> (full quality), <b>Shorts · TikTok · Reels</b> (vertical 1080×1920), <b>Discord</b> (under the 20 MB free limit), <b>Email</b> (under 25 MB) and <b>X</b> (1080p, 60 fps).</li>
 <li><b>Share…</b> opens the Windows share menu with the video attached, so you can send it to Mail, Outlook, Nearby Share, WhatsApp and other apps.</li>
 <li><b>Upload to YouTube</b> opens YouTube's upload page in your browser, shows the video in its folder ready to drag in, and copies a suggested title.</li>
 </ul>
-</section>
-
-<section class="ver" aria-labelledby="v1-3-2">
-<h2 id="v1-3-2">Version 1.3.2 <span class="date">November 6, 2026</span></h2>
+<h3 class="kind improved">Improved</h3>
 <ul>
-<li>Smoother replays in demanding games: capture now gets priority on your graphics card, so it keeps grabbing frames even when a game uses 100% of the GPU.</li>
+<li>The Share window shows each site's logo: YouTube, YouTube Shorts, TikTok, Instagram, Discord, X and email. <span class="v">1.4.1</span></li>
+</ul>
+<h3 class="kind fixed">Fixed</h3>
+<ul>
+<li>Clicking the icon on the Send to phone button could open the editor instead. <span class="v">1.4.1</span></li>
 </ul>
 </section>
 
-<section class="ver" aria-labelledby="v1-3-1">
-<h2 id="v1-3-1">Version 1.3.1 <span class="date">November 6, 2026</span></h2>
+<section class="ver" aria-labelledby="v1-3">
+<h2 id="v1-3">Version 1.3 <span class="date">1.3.0 – 1.3.2 · November 6, 2026</span></h2>
+<h3 class="kind new">New</h3>
 <ul>
-<li>Fixed updates sometimes downloading but not installing. Updates now install and reopen the app by themselves.</li>
-</ul>
-</section>
-
-<section class="ver" aria-labelledby="v1-3-0">
-<h2 id="v1-3-0">Version 1.3.0 <span class="date">November 6, 2026</span></h2>
-<ul>
-<li>Replay Desk now has a 14-day free trial, then a one-time $14.99 lifetime license.</li>
+<li>A 14-day free trial, then a one-time $14.99 lifetime license.</li>
 <li>Buy and unlock right inside the app: click <b>Unlock</b>, then paste the license key from your email.</li>
 <li>One key works on up to 3 of your PCs. Move it any time from Settings.</li>
 </ul>
-</section>
-
-<section class="ver" aria-labelledby="v1-2-4">
-<h2 id="v1-2-4">Version 1.2.4 <span class="date">November 6, 2026</span></h2>
+<h3 class="kind improved">Improved</h3>
 <ul>
-<li>New Settings tab in the side overlay: change replay length, quality, frame rate, game audio, mic, sound effects and buffer-at-startup without leaving your game.</li>
+<li>Smoother replays in demanding games: capture now gets priority on your graphics card, so it keeps grabbing frames even when a game uses 100% of the GPU. <span class="v">1.3.2</span></li>
+</ul>
+<h3 class="kind fixed">Fixed</h3>
+<ul>
+<li>Updates sometimes downloaded but didn't install. Updates now install and reopen the app by themselves. <span class="v">1.3.1</span></li>
 </ul>
 </section>
 
-<section class="ver" aria-labelledby="v1-2-3">
-<h2 id="v1-2-3">Version 1.2.3 <span class="date">November 6, 2026</span></h2>
+<section class="ver" aria-labelledby="v1-2">
+<h2 id="v1-2">Version 1.2 <span class="date">1.2.0 – 1.2.4 · November 5–6, 2026</span></h2>
+<h3 class="kind new">New</h3>
 <ul>
-<li>Updates finish cleanly: the old version closes and the new one opens, with no error box.</li>
-<li>Desktop and Start menu icons refresh to the new logo after updating.</li>
+<li>Send to phone: scan a QR code and download any video to your phone over your home Wi-Fi. No cables, accounts or uploads.</li>
+<li>Big videos are turned into a phone-friendly 1080p copy automatically. Each link only works for the video you picked and expires after an hour.</li>
+<li>Side panel overlay that slides in from the right edge of the screen, with Save replay, Record, the buffer switch, a live recording timer and your last saved clip. Prefer the small floating panel? Choose it under Settings → Overlay style. <span class="v">1.2.1</span></li>
+<li>Settings tab in the side overlay: change replay length, quality, frame rate, game audio, mic, sound effects and buffer-at-startup without leaving your game. <span class="v">1.2.4</span></li>
+</ul>
+<h3 class="kind improved">Improved</h3>
+<ul>
+<li>New Replay Desk logo, app icon and colours across the app, tray, installer and overlay. <span class="v">1.2.2</span></li>
+</ul>
+<h3 class="kind fixed">Fixed</h3>
+<ul>
+<li>Updating showed an error box and left the old version open. The old version now closes and the new one opens by itself. <span class="v">1.2.3</span></li>
+<li>Desktop and Start menu icons didn't refresh to the new logo after updating. <span class="v">1.2.3</span></li>
 </ul>
 </section>
 
-<section class="ver" aria-labelledby="v1-2-2">
-<h2 id="v1-2-2">Version 1.2.2 <span class="date">November 6, 2026</span></h2>
+<section class="ver" aria-labelledby="v1-1">
+<h2 id="v1-1">Version 1.1 <span class="date">1.1.0 – 1.1.1 · November 4, 2026</span></h2>
+<h3 class="kind new">New</h3>
 <ul>
-<li>New Replay Desk logo and app icon across the app, tray, installer and overlay.</li>
-<li>Refreshed colours to match the new logo.</li>
+<li>In-game overlay with Save replay, Record and buffer controls. It stays on top of your game and doesn't steal focus.</li>
+<li><b>Move to main screen</b> button brings the floating overlay back if it ends up off-screen. <span class="v">1.1.1</span></li>
 </ul>
-</section>
-
-<section class="ver" aria-labelledby="v1-2-1">
-<h2 id="v1-2-1">Version 1.2.1 <span class="date">November 6, 2026</span></h2>
+<h3 class="kind improved">Improved</h3>
 <ul>
-<li>New side panel overlay that slides in from the right edge of the screen, with Save replay, Record, the buffer switch, a live recording timer and your last saved clip. Works over fullscreen and borderless games without taking focus.</li>
-<li>Prefer the small floating panel? Choose it under Settings → Overlay style.</li>
-</ul>
-</section>
-
-<section class="ver" aria-labelledby="v1-2-0">
-<h2 id="v1-2-0">Version 1.2.0 <span class="date">November 5, 2026</span></h2>
-<ul>
-<li>New: Send to phone. Scan a QR code and download any video to your phone over your home Wi-Fi. No cables, accounts or uploads.</li>
-<li>Big videos are turned into a phone-friendly 1080p copy automatically.</li>
-<li>Each link only works for the video you picked and expires after an hour.</li>
-</ul>
-</section>
-
-<section class="ver" aria-labelledby="v1-1-1">
-<h2 id="v1-1-1">Version 1.1.1 <span class="date">November 4, 2026</span></h2>
-<ul>
-<li>New <b>Move to main screen</b> button brings the floating overlay back if it ends up off-screen.</li>
-<li>The overlay now positions correctly on high-DPI and multi-monitor setups.</li>
-<li>Update checks every hour.</li>
-</ul>
-</section>
-
-<section class="ver" aria-labelledby="v1-1-0">
-<h2 id="v1-1-0">Version 1.1.0 <span class="date">November 4, 2026</span></h2>
-<ul>
-<li>New in-game overlay with Save replay, Record and buffer controls. It stays on top of your game and doesn't steal focus.</li>
 <li>Starting a recording now starts capture automatically if the buffer was off.</li>
+<li>Checks for updates every hour. <span class="v">1.1.1</span></li>
+</ul>
+<h3 class="kind fixed">Fixed</h3>
+<ul>
+<li>The overlay could appear in the wrong place on high-DPI and multi-monitor setups. <span class="v">1.1.1</span></li>
 </ul>
 </section>
 
-<section class="ver" aria-labelledby="v1-0-0">
-<h2 id="v1-0-0">Version 1.0.0 <span class="date">October 31, 2026</span></h2>
+<section class="ver" aria-labelledby="v1-0">
+<h2 id="v1-0">Version 1.0 <span class="date">1.0.0 · October 31, 2026</span></h2>
+<h3 class="kind new">New</h3>
 <ul>
 <li>First release: replay buffer with a save hotkey, full-session recording, GPU capture with game audio and mic on separate tracks, a clip editor with multiple segments, compilations with cut, fade and crossfade transitions, and automatic update checks.</li>
 </ul>
