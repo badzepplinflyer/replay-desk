@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Replay Desk Troubleshooting: Capture, Audio, Hotkeys and Overlay Fixes</title>
+<link rel="canonical" href="https://getreplaydesk.com/troubleshooting.html">
+<meta name="description" content="Fixes for common Replay Desk problems: capture not starting, choppy replays, missing game or mic audio, hotkeys, the in-game overlay, Send to phone and updates.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Replay Desk">
+<meta property="og:title" content="Replay Desk troubleshooting">
+<meta property="og:description" content="Fixes for common Replay Desk problems: capture not starting, choppy replays, missing game or mic audio, hotkeys, the in-game overlay, Send to phone and updates.">
+<meta property="og:image" content="https://getreplaydesk.com/img/og.jpg">
+<meta property="og:url" content="https://getreplaydesk.com/troubleshooting.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" sizes="64x64" href="img/r_64.png">
+<link rel="icon" type="image/png" sizes="32x32" href="img/r_32.png">
+<link rel="apple-touch-icon" href="img/r_180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<style>
+  .doc { max-width: 780px; padding: 64px 0 96px; }
+  .doc h1 { font: 700 clamp(44px, 6vw, 64px)/1 var(--display); margin: 0 0 16px; }
+  .doc h2 { font-size: 34px; margin: 56px 0 14px; }
+  .doc h3 { font-size: 25px; margin: 32px 0 8px; }
+  .doc p, .doc li { color: #c9cfdb; }
+  .doc li { margin-bottom: 8px; }
+  .doc a:not(.btn) { color: var(--paper); }
+  .toc { margin: 28px 0 0; padding: 20px 24px; background: var(--deck); border: 1px solid var(--rail); border-radius: 14px; }
+  .toc p { margin: 0 0 8px; color: var(--fog); font-size: 15px; }
+  .toc ul { margin: 0; padding-left: 20px; columns: 2 260px; }
+  .toc li { margin: 0 0 6px; }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="bar">
+  <a class="brand" href="index.html"><img src="img/lockup.webp" width="415" height="48" alt="Replay Desk home"></a>
+  <nav aria-label="Main">
+    <a class="opt" href="index.html#features">Features</a>
+    <a href="index.html#pricing">Pricing</a>
+    <a class="opt" href="troubleshooting.html">Help</a>
+    <a class="btn small" href="download.html">Download</a>
+  </nav>
+</header>
+<main id="main">
+<article class="doc">
+  <h1>Troubleshooting</h1>
+  <p>Fixes for the most common Replay Desk problems. Most settings mentioned here are on the Capture screen under <b>Settings</b>.</p>
+  <nav class="toc" aria-label="On this page"><p>On this page</p><ul>
+<li><a href="#capture">Capture won't start or keeps stopping</a></li>
+<li><a href="#choppy">Replays look choppy, but the game felt smooth</a></li>
+<li><a href="#game-audio">No game sound in my videos</a></li>
+<li><a href="#mic">My microphone isn't recorded, or it's too loud or quiet</a></li>
+<li><a href="#sync">Sound and video are out of sync</a></li>
+<li><a href="#hotkeys">A hotkey doesn't work</a></li>
+<li><a href="#overlay">The overlay doesn't appear over my game</a></li>
+<li><a href="#phone">My phone can't open the Send to phone link</a></li>
+<li><a href="#smartscreen">Windows says "Windows protected your PC"</a></li>
+<li><a href="#update">An update downloaded but didn't install</a></li>
+<li><a href="#videos">Where are my videos?</a></li>
+<li><a href="#contact">Still stuck?</a></li>
+  </ul></nav>
+
+<h2 id="capture">Capture won't start or keeps stopping</h2>
+<p>If the Capture screen shows an error, or the buffer keeps switching off:</p>
+<ol>
+<li><b>Check the encoder matches your graphics card.</b> Replay Desk starts on the NVIDIA encoder. On an AMD card choose <b>AMD AMF (GPU)</b>; on a PC without an NVIDIA or AMD card choose <b>x264 (CPU)</b>. It's under Settings → Video → Encoder.</li>
+<li><b>Check the display.</b> If you have more than one monitor, pick the one your game is on under Settings → Video → Display.</li>
+<li><b>Changing resolution is fine.</b> When a game switches resolution or display mode, capture restarts by itself within a few seconds.</li>
+<li>If the error mentions FFmpeg not being found, reinstall Replay Desk from the <a href="download.html">download page</a>. Your settings and videos are kept.</li>
+</ol>
+
+<h2 id="choppy">Replays look choppy, but the game felt smooth</h2>
+<p>This usually means your graphics card was working at 100%, which leaves Windows little room to capture frames. The recording then gets fewer new frames than your game showed.</p>
+<ol>
+<li><b>Update Replay Desk.</b> Version 1.3.2 and later give the capture higher priority on your graphics card.</li>
+<li><b>Cap your game's frame rate</b> a little below what it normally reaches, so the graphics card isn't maxed out.</li>
+<li><b>Record at 60 fps</b> instead of 120 (Settings → Video → Frame rate). That halves the capture work.</li>
+<li><b>Turn on Hardware-accelerated GPU scheduling</b> in Windows Settings → System → Display → Graphics → Change default graphics settings, then restart your PC.</li>
+</ol>
+
+<h2 id="game-audio">No game sound in my videos</h2>
+<ol>
+<li>Make sure <b>Record game / PC audio</b> is ticked under Settings → Audio.</li>
+<li>Set <b>Output device</b> to the speakers or headset you actually hear the game through. <b>Windows default</b> follows whatever Windows is set to.</li>
+<li>Play something and watch the <b>Game audio</b> meter on the Capture screen. If it moves, sound is being captured.</li>
+</ol>
+
+<h2 id="mic">My microphone isn't recorded, or it's too loud or quiet</h2>
+<ol>
+<li>Tick <b>Record microphone</b> and choose your mic under Settings → Audio → Microphone.</li>
+<li>Check that Windows lets desktop apps use your mic: Windows Settings → Privacy &amp; security → Microphone → <b>Let desktop apps access your microphone</b>.</li>
+<li>Adjust <b>Mic level</b> in Settings for future recordings. Your mic is also saved on its own track, so you can turn it up, down or off for any clip in the editor.</li>
+</ol>
+
+<h2 id="sync">Sound and video are out of sync</h2>
+<p>Move the <b>Audio sync offset</b> slider under Settings → Audio (from −300 to +300 ms) until sound lines up with the picture, then save a new replay to check.</p>
+
+<h2 id="hotkeys">A hotkey doesn't work</h2>
+<p>Under Settings, each hotkey shows <b>✓ Active</b> when it's working. If it says the key is <b>in use by another app</b> (for example the NVIDIA overlay or Discord), pick a different combination. Any combination you like works.</p>
+<p>Turn on <b>Beep when saving</b> in Settings to hear a confirmation each time a hotkey saves a replay.</p>
+
+<h2 id="overlay">The overlay doesn't appear over my game</h2>
+<ul>
+<li>Most games work, in fullscreen, borderless and windowed modes. A few older games use an exclusive fullscreen mode where Windows doesn't allow anything on top. Switch the game to <b>borderless</b> to use the overlay; your hotkeys still save replays and start recordings either way.</li>
+<li>If you use the floating panel and it's gone off-screen or onto another monitor, click <b>Move to main screen</b> in Settings.</li>
+</ul>
+
+<h2 id="phone">My phone can't open the Send to phone link</h2>
+<ol>
+<li>Make sure your phone is on the <b>same Wi-Fi</b> as your PC (not mobile data).</li>
+<li>The first time, Windows asks whether Replay Desk can use the network: click <b>Allow</b>.</li>
+<li>If it still can't connect, set your Wi-Fi to a <b>Private network</b> in Windows Settings → Network &amp; internet.</li>
+<li>Each link works for one hour. For large videos, wait a moment while the phone-friendly copy is made.</li>
+</ol>
+
+<h2 id="smartscreen">Windows says "Windows protected your PC"</h2>
+<p>Windows shows this for new apps from small developers. Click <b>More info</b>, then <b>Run anyway</b>. You'll only see it once per installer.</p>
+
+<h2 id="update">An update downloaded but didn't install</h2>
+<p>Download the latest installer from the <a href="download.html">download page</a> and run it. It installs over your current version and keeps your settings, hotkeys, license and videos.</p>
+
+<h2 id="videos">Where are my videos?</h2>
+<p>In <b>Videos\Replay Desk</b>, sorted into Replays, Recordings, Clips and Compilations. The <b>Library</b> tab in the app shows them all. To save somewhere else, change <b>Save to folder</b> in Settings.</p>
+
+<h2 id="contact">Still stuck?</h2>
+<p>Email <a href="mailto:support@getreplaydesk.com">support@getreplaydesk.com</a> (support@getreplaydesk.com) with what happened, your Replay Desk version (shown in Settings) and, if you can, the log file. To find it, press <b>Win+R</b>, paste <code class="mono">%LOCALAPPDATA%\ReplayDesk</code> and attach <b>replaydesk.log</b>. It lists what the app did, not your videos.</p>
+<p>License or purchase question? See <a href="license-help.html">License help</a>.</p>
+</article>
+</main>
+<footer class="foot">
+  <span class="brand"><img src="img/lockup.webp" width="276" height="32" alt="Replay Desk"></span>
+  <nav class="foot-links" aria-label="Footer">
+    <a href="download.html">Download</a>
+    <a href="index.html#pricing">Pricing</a>
+    <a href="index.html#faq">FAQ</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+    <a href="license-help.html">License help</a>
+    <a href="whats-new.html">What's new</a>
+    <a href="mailto:support@getreplaydesk.com">Support</a>
+    <a href="privacy.html">Privacy</a>
+  </nav>
+  <span class="copy">© 2026 Replay Desk</span>
+</footer>
+</body>
+</html>
