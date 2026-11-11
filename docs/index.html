@@ -3,14 +3,50 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Replay Desk: instant replays and clips for Windows games</title>
+<title>Replay Desk: Instant Replay &amp; Gameplay Recorder for Windows PC Games</title>
 <link rel="canonical" href="https://getreplaydesk.com/">
-<meta name="description" content="Replay Desk records your game in the background. Press your hotkey and the last minutes are saved. Trim clips, stitch highlights and send them to your phone. $14.99 once, 14 days free.">
-<meta property="og:title" content="Replay Desk">
-<meta property="og:description" content="Capture and clip your moments. Instant replays, clip editor and highlight reels for Windows games.">
+<meta name="description" content="Replay Desk is instant replay and gameplay recording software for Windows 10 and 11. Save the last 30 seconds to 20 minutes of any game with a hotkey, trim clips, build highlight videos and send them to your phone. 14-day free trial, then $14.99 once.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Replay Desk">
+<meta property="og:title" content="Replay Desk: Instant Replay &amp; Gameplay Recorder for Windows">
+<meta property="og:description" content="Save your best gaming moments with a hotkey, trim them into clips and stitch highlight videos. For Windows 10 and 11. Free 14-day trial.">
 <meta property="og:image" content="https://getreplaydesk.com/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Replay Desk logo">
 <meta property="og:url" content="https://getreplaydesk.com/">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Replay Desk: Instant Replay &amp; Gameplay Recorder for Windows">
+<meta name="twitter:description" content="Save your best gaming moments with a hotkey, trim them into clips and stitch highlight videos. Free 14-day trial.">
+<meta name="twitter:image" content="https://getreplaydesk.com/img/og.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Replay Desk",
+  "url": "https://getreplaydesk.com/",
+  "description": "Instant replay and gameplay recording software for Windows PC games, with a clip editor, highlight compilations and send-to-phone.",
+  "applicationCategory": "MultimediaApplication",
+  "applicationSubCategory": "Game recording",
+  "operatingSystem": "Windows 10, Windows 11 (64-bit)",
+  "downloadUrl": "https://github.com/badzepplinflyer/replay-desk/releases/latest/download/ReplayDesk-Setup.exe",
+  "installUrl": "https://getreplaydesk.com/download.html",
+  "releaseNotes": "https://github.com/badzepplinflyer/replay-desk/releases",
+  "image": "https://getreplaydesk.com/img/capture.webp",
+  "screenshot": [
+    "https://getreplaydesk.com/img/capture.webp",
+    "https://getreplaydesk.com/img/editor.webp",
+    "https://getreplaydesk.com/img/compile.webp"
+  ],
+  "offers": {
+    "@type": "Offer",
+    "price": "14.99",
+    "priceCurrency": "USD",
+    "url": "https://buy.polar.sh/polar_cl_LvKcPeNQOrEBMUzjqY7vetxMWv03P2Hp34yGj3oqEe9",
+    "description": "Lifetime license after a 14-day free trial. Works on up to 3 PCs; includes future updates."
+  }
+}
+</script>
 <link rel="icon" type="image/png" sizes="64x64" href="img/r_64.png">
 <link rel="icon" type="image/png" sizes="32x32" href="img/r_32.png">
 <link rel="apple-touch-icon" href="img/r_180.png">
@@ -23,11 +59,11 @@
 
 <header class="bar">
   <a class="brand" href="#top"><img src="img/lockup.webp" width="415" height="48" alt="Replay Desk"></a>
-  <nav>
-    <a href="#features">Features</a>
+  <nav aria-label="Main">
+    <a class="opt" href="#features">Features</a>
     <a href="#pricing">Pricing</a>
-    <a href="#faq">Questions</a>
-    <a class="btn small" href="https://github.com/badzepplinflyer/replay-desk/releases/latest/download/ReplayDesk-Setup.exe">Download</a>
+    <a class="opt" href="#faq">Questions</a>
+    <a class="btn small" href="download.html">Download</a>
   </nav>
 </header>
 
@@ -36,13 +72,14 @@
 
 <section class="hero">
   <div class="hero-copy">
+    <p class="kicker">Instant replay &amp; gameplay recorder for Windows PC games</p>
     <h1>Capture and Clip Your Moments.</h1>
     <p class="lede">Replay Desk quietly records your game in the background. Pull off the pass, the landing or the clutch round, press your hotkey, and the last few minutes are saved as a video.</p>
     <div class="cta">
-      <a class="btn primary" href="https://github.com/badzepplinflyer/replay-desk/releases/latest/download/ReplayDesk-Setup.exe">Download free trial</a>
+      <a class="btn primary" href="https://github.com/badzepplinflyer/replay-desk/releases/latest/download/ReplayDesk-Setup.exe">Download for Windows <span class="btn-sub">Free 14-day trial</span></a>
       <a class="btn ghost" href="#pricing">Lifetime license <span class="price-tag">$14.99</span></a>
     </div>
-    <p class="fine">For Windows 10 and 11. Try every feature free for 14 days, then pay once to keep it. No subscription.</p>
+    <p class="fine">ReplayDesk-Setup.exe · 64-bit Windows 10 and 11 · about 75 MB. Try every feature free for 14 days, then pay once to keep it. No subscription. <a href="download.html">System requirements and install help</a></p>
   </div>
 
   <figure class="deck" aria-label="Animated example: the replay buffer keeps the last two minutes, and a hotkey saves them">
@@ -67,32 +104,34 @@
 </section>
 
 <figure class="shot wide">
-  <img src="img/capture.webp" width="1800" height="700" alt="Replay Desk's Capture screen with the replay buffer running at 120 fps, game and mic audio meters, Save replay and Start recording buttons, and a list of recent saves">
+  <figcaption class="sr-only">The Capture screen, where the replay buffer runs and recent saves are listed</figcaption>
+  <img src="img/capture.webp" width="1800" height="700" alt="Replay Desk's Capture screen with the replay buffer running at 120 fps, game and mic audio meters, Save replay and Start recording buttons, and recent gameplay saves">
 </figure>
 
 <section class="features" id="features">
   <h2>Everything after the moment</h2>
+  <p class="section-lede">Record in the background, save the moment, then trim it, combine it with other clips and share it, all in one app.</p>
 
   <article class="feature">
     <div class="feature-copy">
-      <h3>Cut it down to the good part</h3>
+      <h3>Clip editor: cut it down to the good part</h3>
       <p>Open any replay or recording, mark where the action starts and ends, and keep as many pieces as you like. They're joined into one clip in the order you choose.</p>
       <p>Your voice and the game sound are recorded on separate tracks, so you can turn your mic down or mute it without touching the game.</p>
     </div>
-    <img src="img/editor.webp" width="1600" height="1000" loading="lazy" alt="The clip editor with three segments marked on a timeline, a list of the segments, game and mic volume sliders, and an Export clip button">
+    <img src="img/editor.webp" width="1600" height="1000" loading="lazy" alt="The Replay Desk clip editor showing a Hell Let Loose: Vietnam recording with three segments marked on the timeline, separate game and mic volume sliders, and an Export clip button">
   </article>
 
   <article class="feature flip">
     <div class="feature-copy">
-      <h3>Stitch your best moments together</h3>
+      <h3>Highlight maker: stitch your best moments together</h3>
       <p>Pick a few clips, drag them into order, choose a cut, fade or crossfade, and export one highlight video. Clips from different games and resolutions are matched up for you.</p>
     </div>
-    <img src="img/compile.webp" width="1600" height="1000" loading="lazy" alt="The Compile screen with three clips in order, a preview player and transition options for Cut, Fade to black and Crossfade">
+    <img src="img/compile.webp" width="1600" height="1000" loading="lazy" alt="The Compile screen with gameplay clips in order, a preview player and transition options for Cut, Fade to black and Crossfade">
   </article>
 
   <article class="feature">
     <div class="feature-copy">
-      <h3>Controls that slide out over your game</h3>
+      <h3>In-game overlay: controls that slide out over your game</h3>
       <p>Press your overlay hotkey and a control panel slides in from the side of the screen with Save replay, Record and the buffer switch, plus a live recording timer. Press it again and it tucks away.</p>
       <p>It works over fullscreen and borderless games, and clicking it doesn't pull focus from your game. Prefer a small floating panel instead? Switch styles in Settings.</p>
     </div>
@@ -101,17 +140,17 @@
 
   <article class="feature flip">
     <div class="feature-copy">
-      <h3>Send it to your phone</h3>
+      <h3>Send to phone: no cables, no uploads</h3>
       <p>Click the phone button on any video and scan the code with your camera. The video downloads over your home Wi-Fi, already shrunk to a phone-friendly size. Nothing is uploaded anywhere.</p>
     </div>
     <img src="img/phone.webp" width="1100" height="727" loading="lazy" alt="The Send to phone window with a QR code and three steps to download the video on a phone">
   </article>
 
   <dl class="facts">
-    <div><dt>Your frame rate stays put</dt><dd>Video is encoded on your graphics card (NVIDIA or AMD), not your CPU.</dd></div>
-    <div><dt>Files named after the game</dt><dd>Replays save as iRacing_2026-11-04.mp4, not Video 37.mp4.</dd></div>
+    <div><dt>Encoded on your graphics card</dt><dd>Uses the video encoder built into NVIDIA (NVENC) and AMD (AMF) cards, with a CPU option (x264) for other PCs.</dd></div>
+    <div><dt>Files named after the game</dt><dd>Replays save as iRacing_2026-11-04_21-16-56.mp4, not Video 37.mp4.</dd></div>
     <div><dt>Your keys, your way</dt><dd>Set any hotkeys you like for saving replays, recording and the overlay.</dd></div>
-    <div><dt>Any length</dt><dd>Keep the last 30 seconds or the last 20 minutes, or record a whole session.</dd></div>
+    <div><dt>Any length</dt><dd>Keep the last 30 seconds up to the last 20 minutes, or record a whole session. 30, 60 or 120 fps.</dd></div>
     <div><dt>Free updates, forever</dt><dd>Replay Desk tells you when a new version is ready and installs it in one click. Every future update is included.</dd></div>
     <div><dt>Stays on your PC</dt><dd>No account, no cloud. Your videos never leave your computer unless you send them.</dd></div>
   </dl>
@@ -130,8 +169,9 @@
       <li>Use it on up to 3 of your PCs</li>
       <li>All future updates</li>
     </ul>
-    <a class="btn primary block" id="buyBtn" href="#pricing" aria-disabled="true">Lifetime licenses coming soon</a>
-    <a class="btn ghost block" href="https://github.com/badzepplinflyer/replay-desk/releases/latest/download/ReplayDesk-Setup.exe">Start the free trial</a>
+    <a class="btn primary block" id="buyBtn" href="https://buy.polar.sh/polar_cl_LvKcPeNQOrEBMUzjqY7vetxMWv03P2Hp34yGj3oqEe9">Buy lifetime license</a>
+    <a class="btn ghost block" href="https://github.com/badzepplinflyer/replay-desk/releases/latest/download/ReplayDesk-Setup.exe">Download the free trial for Windows</a>
+    <p class="price-note">Secure checkout by Polar. Your license key arrives by email; paste it into the app to unlock.</p>
   </div>
 </section>
 
@@ -139,7 +179,7 @@
   <h2>Questions</h2>
   <details>
     <summary>What do I need to run it?</summary>
-    <p>A 64-bit Windows 10 or 11 PC. An NVIDIA or AMD graphics card is best because it does the video encoding; without one, Replay Desk uses your CPU instead.</p>
+    <p>A 64-bit Windows 10 or 11 PC. An NVIDIA or AMD graphics card is best because its built-in video encoder does the recording. Replay Desk starts on the NVIDIA encoder; on an AMD card choose <b>AMD AMF</b>, or on a PC without either choose <b>x264 (CPU)</b>, under Settings → Encoder. See the <a href="download.html#requirements">full requirements</a>.</p>
   </details>
   <details>
     <summary>Windows says "Windows protected your PC". Is that normal?</summary>
@@ -147,7 +187,7 @@
   </details>
   <details>
     <summary>Will it slow my game down?</summary>
-    <p>Hardly at all. Your graphics card has a separate video encoder built in, and that's what Replay Desk uses, so your game keeps its frame rate.</p>
+    <p>Replay Desk records with the separate video encoder built into NVIDIA and AMD graphics cards, which keeps the extra load on your game low. If a game already pushes your graphics card to 100%, capping its frame rate slightly or recording at 60 fps keeps both the game and the recording smooth.</p>
   </details>
   <details>
     <summary>Does the overlay work in fullscreen games?</summary>
@@ -155,7 +195,7 @@
   </details>
   <details>
     <summary>How do updates work?</summary>
-    <p>Replay Desk checks for new versions on its own. When one is ready, a banner shows what's new and <b>Update now</b> installs it and reopens the app in a few seconds. You can also turn on automatic updates in Settings. Updates are free for life, and your settings, hotkeys and videos are always kept.</p>
+    <p>Replay Desk checks for new versions on its own. When one is ready, a banner shows what's new and <b>Update now</b> installs it and reopens the app in a few seconds. You can also turn on automatic updates in Settings. Updates are free for life, and your settings, hotkeys and videos are always kept. You can read what changed in each version in the <a href="https://github.com/badzepplinflyer/replay-desk/releases">release notes</a>.</p>
   </details>
   <details>
     <summary>Can I change the hotkeys?</summary>
@@ -183,20 +223,18 @@
 
 <footer class="foot">
   <span class="brand"><img src="img/lockup.webp" width="276" height="32" alt="Replay Desk"></span>
-  <a href="privacy.html">Privacy</a>
-  <a href="mailto:support@getreplaydesk.com">Support</a>
-  <a href="https://github.com/badzepplinflyer/replay-desk/releases/latest/download/ReplayDesk-Setup.exe">Download</a>
+  <nav class="foot-links" aria-label="Footer">
+    <a href="download.html">Download</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a>
+    <a href="https://github.com/badzepplinflyer/replay-desk/releases">Release notes</a>
+    <a href="mailto:support@getreplaydesk.com">Support</a>
+    <a href="privacy.html">Privacy</a>
+  </nav>
   <span class="copy">© 2026 Replay Desk</span>
 </footer>
 
 <script>
-/* Store link: set this once the checkout page exists. */
-const CHECKOUT_URL = "https://buy.polar.sh/polar_cl_LvKcPeNQOrEBMUzjqY7vetxMWv03P2Hp34yGj3oqEe9";
-if (CHECKOUT_URL) {
-  const b = document.getElementById("buyBtn");
-  b.href = CHECKOUT_URL; b.textContent = "Buy lifetime license"; b.removeAttribute("aria-disabled");
-}
-
 /* The replay deck: a rolling two-minute window follows the playhead; every few
    seconds the hotkey is "pressed" and the window is saved as a file. */
 (function () {
